@@ -1,5 +1,5 @@
 # Quality white wine predictor
-Authors: Aldo Saltao Barros, Nikita Shimberg, Yair Guterman, Son Chaou
+Authors: Aldo Saltao Barros, Nikita Shimberg, Yair Guterman, Son Chau
 
 ## About 
 
