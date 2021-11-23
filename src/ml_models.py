@@ -17,29 +17,51 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import BayesianRidge
 from sklearn.svm import SVR
 from sklearn.metrics import make_scorer
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from scipy.stats import loguniform
 
 
-def read_data(path: str) -> pd.DataFrame:
+def read_data(path):
     """
     TODO: docs
     TODO: tests
     TODO: does this even need to be in a function?
     """
-    return pd.read_csv(path)
+    return pd.read_csv(path, sep=";")  # TODO: remove sep
 
 
-def fit_model(model, X_train, params, metrics=None):
+def fit_model(model, X_train, y_train, params=None, metrics=None, n_iter=50):
     """
     TODO: docs
     TODO: tests
     Returns the fit model
     """
-    ...
+    pipe = make_pipeline(
+        StandardScaler(),  # TODO: do we need something better?
+        model
+    )
+    if params is not None:
+        searcher = RandomizedSearchCV(
+            pipe,
+            param_distributions=params,
+            n_jobs=-1,
+            n_iter=n_iter,
+            cv=5,
+            random_state=522,
+            return_train_score=True,
+            scoring=metrics
+        )
+        searcher.fit(X_train, y_train)
+        return searcher
+    else:
+        model.fit(X_train, y_train, return_train_score=True)
+        return model
 
 
-def evaluate_model(model, X_test, metrics=None):
+def evaluate_model(model, X_test, y_test, metrics=None):
     """
     TODO: docs
     TODO: tests
@@ -60,6 +82,8 @@ def main():
     # Read in processed data
     # TODO: change path
     X_train = read_data("data/raw/winequality/winequality-red.csv")
+    y_train = X_train["quality"]
+    X_train = X_train.drop(columns=["quality"])
 
     # Create models and hyperparameters
     models = {
@@ -110,16 +134,18 @@ def main():
 
     # Hyperparameter optimization for each model
     for model_name in models:
-        models[model_name] = fit_model(models[model_name], X_train,
+        models[model_name] = fit_model(models[model_name], X_train, y_train,
                                        param_grid[model_name], metrics=metrics)
 
     # Evaluate the models on the test set
     # TODO: change path
     X_test = read_data("data/raw/winequality/winequality-red.csv")
+    y_test = X_test["quality"]
+    X_test = X_test.drop(columns=["quality"])
     results = {}
     for model_name in models:
         results[model_name] = evaluate_model(
-            models[model_name], X_test, metrics)
+            models[model_name], X_test, y_test, metrics)
 
     # Save results
     save_results(results, "results/filename.something")  # TODO: fix path
