@@ -8,7 +8,6 @@ TODO: tests
 """
 import pandas as pd
 import numpy as np
-from pandas.io.parsers import read_csv
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Ridge
@@ -52,22 +51,25 @@ def fit_model(model, X_train, y_train, params=None, metrics=None, n_iter=50):
             cv=5,
             random_state=522,
             return_train_score=True,
-            scoring=metrics
+            scoring=metrics,
+            refit=False  # TODO: how to use a metric?
         )
         searcher.fit(X_train, y_train)
         return searcher
-    else:
-        model.fit(X_train, y_train, return_train_score=True)
+    else:  # TODO: might need some additional handling here
+        model.fit(X_train, y_train)
         return model
 
 
-def evaluate_model(model, X_test, y_test, metrics=None):
+def evaluate_model(model, X_test, y_test):
     """
     TODO: docs
     TODO: tests
-    Return the trained model and results
+    Return the results
     """
-    ...
+    scores = model.score(X_test, y_test)
+    return scores
+    return pd.DataFrame(scores)
 
 
 def save_results(results, path):
@@ -100,13 +102,13 @@ def main():
             "ridge__alpha": np.logspace(-3, 2, 6)
         },
         "Random Forest": {
-            "randomforest__n_estimators": np.arange(10, 500, 10),
-            "randomforest__criterion": ["gini", "entropy"],
-            "randomforest__max_depth": np.arange(3, 25),
-            "randomforest__bootstrap": [True, False],
-            "randomforest__class_weight": [
-                None, "balanced", "balanced_subsample"
-                ],
+            "randomforestregressor__n_estimators": np.arange(10, 500, 10),
+            "randomforestregressor__criterion": [
+                "squared_error",
+                "absolute_error",
+                "poisson"],
+            "randomforestregressor__max_depth": np.arange(3, 25),
+            "randomforestregressor__bootstrap": [True, False],
         },
         "KNN": {
             "kneighborsregressor__n_neighbors": np.arange(2, 50),
@@ -135,7 +137,8 @@ def main():
     # Hyperparameter optimization for each model
     for model_name in models:
         models[model_name] = fit_model(models[model_name], X_train, y_train,
-                                       param_grid[model_name], metrics=metrics)
+                                       param_grid[model_name], metrics=metrics,
+                                       n_iter=1)
 
     # Evaluate the models on the test set
     # TODO: change path
@@ -143,11 +146,13 @@ def main():
     y_test = X_test["quality"]
     X_test = X_test.drop(columns=["quality"])
     results = {}
+    # TODO: looks like you're supposed to only do this for the best model, maybe put this in a different file
     for model_name in models:
         results[model_name] = evaluate_model(
-            models[model_name], X_test, y_test, metrics)
+            models[model_name], X_test, y_test)
 
     # Save results
+    # TODO: save the model as well
     save_results(results, "results/filename.something")  # TODO: fix path
 
 
