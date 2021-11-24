@@ -22,6 +22,7 @@ from sklearn.preprocessing import StandardScaler
 from joblib import dump
 
 from scipy.stats import loguniform
+from pathlib import Path
 
 
 def read_data(path):
@@ -69,8 +70,10 @@ def save_results(results, model, path):
     Saves the raw cross validation results
     """
     results = pd.DataFrame(results)
-    results.to_csv(path)
-    dump(model, f"{path}.joblib")
+    path = Path(path)
+    path.mkdir(parents=True, exist_ok=True)
+    results.to_csv(f"{path}/{path.name}.csv")
+    dump(model, f"{path}/{path.name}.joblib")
 
 
 def main():
@@ -90,7 +93,9 @@ def main():
         "SVM": SVR(),
     }
     param_grid = {
-        "Dummy": None,
+        "Dummy": {
+            "dummyregressor__strategy": ["mean", "median"]
+        },
         "Ridge": {
             "ridge__alpha": np.logspace(-3, 2, 6)
         },
@@ -107,7 +112,12 @@ def main():
             "kneighborsregressor__n_neighbors": np.arange(2, 50),
             "kneighborsregressor__weights": ["uniform", "distance"],
         },
-        "Bayes": None,  # TODO: read the docs again to try and understand these NEXT
+        "Bayes": {
+            "bayesianridge__alpha_1": loguniform(1e-7, 1e5),
+            "bayesianridge__alpha_2": loguniform(1e-7, 1e5),
+            "bayesianridge__lambda_1": loguniform(1e-7, 1e5),
+            "bayesianridge__lambda_2": loguniform(1e-7, 1e5)
+        },
         "SVM": {
             "svr__kernel": ["linear", "poly", "rbf", "sigmoid"],
             "svr__degree": np.arange(2, 5),
@@ -118,7 +128,7 @@ def main():
     mape_scorer = make_scorer(
         lambda true, pred: 100 * np.mean(np.abs(pred - true / true)),
         greater_is_better=False
-        )  # TODO: attribute this to lab 1
+        )  # TODO: attribute this to lab 1 or delete
     metrics = {
         "negative MSE": "neg_mean_squared_error",
         "negarive RMSE": "neg_root_mean_squared_error",
@@ -134,8 +144,9 @@ def main():
         models[model_name] = fit_model(models[model_name], X_train, y_train,
                                        param_grid[model_name], metrics=metrics,
                                        n_iter=1)
-        results = models[model_name].cv_results_
+        results = models[model_name].cv_results_  # TODO: actually use the other metrics
         model = models[model_name].best_estimator_
+
         save_results(results, model, f"{save_path}/{model_name}")
 
 
