@@ -15,7 +15,6 @@ from sklearn.dummy import DummyRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import BayesianRidge
 from sklearn.svm import SVR
-from sklearn.metrics import make_scorer, r2_score
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -34,7 +33,7 @@ def read_data(path):
     return pd.read_csv(path, sep=";")  # TODO: remove sep
 
 
-def fit_model(model, X_train, y_train, params=None, metrics=None, n_iter=50):
+def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
     """
     TODO: docs
     TODO: tests
@@ -44,23 +43,19 @@ def fit_model(model, X_train, y_train, params=None, metrics=None, n_iter=50):
         StandardScaler(),  # TODO: do we need something better?
         model
     )
-    if params is not None:
-        searcher = RandomizedSearchCV(
-            pipe,
-            param_distributions=params,
-            n_jobs=-1,
-            n_iter=n_iter,
-            cv=5,
-            random_state=522,
-            return_train_score=True,
-            scoring=metrics,
-            refit=True  # TODO: how to use a metric?
-        )
-        searcher.fit(X_train, y_train)
-        return searcher
-    else:  # TODO: might need some additional handling here
-        model.fit(X_train, y_train)
-        return model
+    searcher = RandomizedSearchCV(
+        pipe,
+        param_distributions=params,
+        n_jobs=-1,
+        n_iter=n_iter,
+        cv=5,
+        random_state=522,
+        return_train_score=True,
+        scoring=metrics,
+        refit=True  # FIXME: how to use a metric?
+    )
+    searcher.fit(X_train, y_train)
+    return searcher
 
 
 def save_results(results, model, path):
@@ -76,10 +71,9 @@ def save_results(results, model, path):
     dump(model, f"{path}/{path.name}.joblib")
 
 
-def main():
-    # Read in processed data
-    # TODO: change path
-    X_train = read_data("data/raw/winequality/winequality-red.csv")
+def main(train_path):
+    # Read in pre-processed data
+    X_train = read_data(train_path)
     y_train = X_train["quality"]
     X_train = X_train.drop(columns=["quality"])
 
@@ -125,16 +119,11 @@ def main():
             "svr__C": loguniform(1e-3, 1e3),
         }
     }
-    mape_scorer = make_scorer(
-        lambda true, pred: 100 * np.mean(np.abs(pred - true / true)),
-        greater_is_better=False
-        )  # TODO: attribute this to lab 1 or delete
     metrics = {
         "negative MSE": "neg_mean_squared_error",
         "negarive RMSE": "neg_root_mean_squared_error",
         "megative MAE": "neg_mean_absolute_error",
         "r-squared": "r2",
-        "MAPE": mape_scorer,
     }  # TODO: do we need any more?
     metrics = "r2"
 
@@ -144,11 +133,11 @@ def main():
         models[model_name] = fit_model(models[model_name], X_train, y_train,
                                        param_grid[model_name], metrics=metrics,
                                        n_iter=1)
-        results = models[model_name].cv_results_  # TODO: actually use the other metrics
+        results = models[model_name].cv_results_
         model = models[model_name].best_estimator_
 
         save_results(results, model, f"{save_path}/{model_name}")
 
 
 if __name__ == "__main__":
-    main()
+    main("data/raw/winequality/winequality-red.csv")
