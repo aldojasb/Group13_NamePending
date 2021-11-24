@@ -2,9 +2,18 @@
 # Date: Nov 23 2021
 
 """
-TODO: docs
-TODO: docopt arguments
-TODO: tests
+This script trains several ML models on the pre-processed train data.
+For each model, it does hyperparameter optimization and saves the model
+that had the best cross-validation score. It also saves the
+cross-validation report.
+Usage: ml_models.py <train_path> <save_path>
+
+Options:
+<train_path>            The path to the training csv file
+<save_path>             The folder to save the model results to
+
+Example:
+python ml_models.py data/train.csv, results/raw_results
 """
 import pandas as pd
 import numpy as np
@@ -22,6 +31,7 @@ from joblib import dump
 
 from scipy.stats import loguniform
 from pathlib import Path
+from docopt import docopt
 
 
 def read_data(path):
@@ -40,7 +50,7 @@ def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
     Returns the fit model
     """
     pipe = make_pipeline(
-        StandardScaler(),  # TODO: do we need something better?
+        StandardScaler(),
         model
     )
     searcher = RandomizedSearchCV(
@@ -71,7 +81,12 @@ def save_results(results, model, path):
     dump(model, f"{path}/{path.name}.joblib")
 
 
-def main(train_path):
+def main():
+    # parse arguments
+    args = docopt(__doc__)
+    train_path = args["<train_path>"]
+    save_path = args["<save_path>"]
+
     # Read in pre-processed data
     X_train = read_data(train_path)
     y_train = X_train["quality"]
@@ -124,11 +139,10 @@ def main(train_path):
         "negarive RMSE": "neg_root_mean_squared_error",
         "megative MAE": "neg_mean_absolute_error",
         "r-squared": "r2",
-    }  # TODO: do we need any more?
+    }
     metrics = "r2"
 
     # Hyperparameter optimization for each model
-    save_path = "results/raw_results"
     for model_name in models:
         models[model_name] = fit_model(models[model_name], X_train, y_train,
                                        param_grid[model_name], metrics=metrics,
@@ -140,4 +154,4 @@ def main(train_path):
 
 
 if __name__ == "__main__":
-    main("data/raw/winequality/winequality-red.csv")
+    main()
