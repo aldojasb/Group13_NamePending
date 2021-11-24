@@ -19,6 +19,7 @@ from sklearn.metrics import make_scorer, r2_score
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from joblib import dump
 
 from scipy.stats import loguniform
 
@@ -67,7 +68,9 @@ def save_results(results, model, path):
     TODO: tests
     Saves the raw cross validation results
     """
-    ...
+    results = pd.DataFrame(results)
+    results.to_csv(path)
+    dump(model, f"{path}.joblib")
 
 
 def main():
@@ -104,7 +107,7 @@ def main():
             "kneighborsregressor__n_neighbors": np.arange(2, 50),
             "kneighborsregressor__weights": ["uniform", "distance"],
         },
-        "Bayes": None,  # TODO: read the docs again to try and understand these
+        "Bayes": None,  # TODO: read the docs again to try and understand these NEXT
         "SVM": {
             "svr__kernel": ["linear", "poly", "rbf", "sigmoid"],
             "svr__degree": np.arange(2, 5),
@@ -126,16 +129,14 @@ def main():
     metrics = "r2"
 
     # Hyperparameter optimization for each model
+    save_path = "results/raw_results"
     for model_name in models:
         models[model_name] = fit_model(models[model_name], X_train, y_train,
                                        param_grid[model_name], metrics=metrics,
                                        n_iter=1)
-
-    # Save results
-    # TODO: save the model as well
-    # save_results(results, "results/filename.something")  # TODO: fix path
-    print(models)
-    print(models)
+        results = models[model_name].cv_results_
+        model = models[model_name].best_estimator_
+        save_results(results, model, f"{save_path}/{model_name}")
 
 
 if __name__ == "__main__":
