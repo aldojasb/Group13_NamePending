@@ -27,7 +27,7 @@ from sklearn.svm import SVR
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-from joblib import dump
+from joblib import dump, load
 
 from scipy.stats import loguniform
 from pathlib import Path
@@ -74,11 +74,21 @@ def save_results(results, model, path):
     TODO: tests
     Saves the raw cross validation results
     """
-    results = pd.DataFrame(results)
     path = Path(path)
     path.mkdir(parents=True, exist_ok=True)
+
+    results = pd.DataFrame(results)
     results.to_csv(f"{path}/{path.name}.csv")
     dump(model, f"{path}/{path.name}.joblib")
+
+
+def load_model(path):
+    """
+    TODO: docs
+    TODO: tests
+    Returns the loaded model
+    """
+    return load(path)
 
 
 def main():
@@ -148,6 +158,14 @@ def main():
                                        param_grid[model_name], metrics=metrics,
                                        n_iter=1)
         results = models[model_name].cv_results_
+        results = pd.DataFrame(results)
+        results = results[
+            ["mean_test_score",
+             "std_test_score",
+             "mean_train_score",
+             "std_train_score"]
+        ]
+        results = results.to_dict() | models[model_name].best_params_
         model = models[model_name].best_estimator_
 
         save_results(results, model, f"{save_path}/{model_name}")
