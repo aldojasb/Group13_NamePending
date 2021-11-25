@@ -4,6 +4,9 @@ Usage: split.py <input_path> <output_location>
 Options:
 <input_path>         input path
 <output_location>     output location
+
+Example: python src/split.py data/raw/winequality/winequality-white.csv data/processed
+
 """ 
 from sklearn.model_selection import train_test_split
 import pandas as pd
