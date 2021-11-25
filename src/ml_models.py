@@ -6,14 +6,15 @@ This script trains several ML models on the pre-processed train data.
 For each model, it does hyperparameter optimization and saves the model
 that had the best cross-validation score. It also saves the
 cross-validation report.
+The train files must be named X_train.csv and y_train.csv
 Usage: ml_models.py <train_path> <save_path>
 
 Options:
-<train_path>            The path to the training csv file
+<train_path>            The path to the training csv files.
 <save_path>             The folder to save the model results to
 
 Example:
-python ml_models.py data/train.csv, results/raw_results
+python ml_models.py data/processed results/raw_results
 """
 import pandas as pd
 import numpy as np
@@ -40,7 +41,12 @@ def read_data(path):
     TODO: tests
     TODO: does this even need to be in a function?
     """
-    return pd.read_csv(path, sep=";")  # TODO: remove sep
+    X_path = f"{path}/X_train.csv"
+    y_path = f"{path}/y_train.csv"
+    X_train = pd.read_csv(X_path)
+    y_train = pd.read_csv(y_path)
+
+    return X_train, y_train
 
 
 def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
@@ -98,9 +104,10 @@ def main():
     save_path = args["<save_path>"]
 
     # Read in pre-processed data
-    X_train = read_data(train_path)
-    y_train = X_train["quality"]
-    X_train = X_train.drop(columns=["quality"])
+    X_train, y_train = read_data(train_path)
+    data = pd.concat([X_train, y_train], axis=1)
+    y_train = data["quality"]
+    X_train = data.drop("quality", axis=1)
 
     # Create models and hyperparameters
     models = {
