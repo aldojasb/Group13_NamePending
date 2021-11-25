@@ -1,0 +1,2 @@
+,mean_test_score,std_test_score,mean_train_score,std_train_score,kneighborsregressor__weights,kneighborsregressor__n_neighbors
+0,0.4649746758334808,0.013421080725264415,1.0,0.0,distance,41

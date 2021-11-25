@@ -1,0 +1,2 @@
+,mean_test_score,std_test_score,mean_train_score,std_train_score,randomforestregressor__n_estimators,randomforestregressor__max_depth,randomforestregressor__criterion,randomforestregressor__bootstrap
+0,0.13727623502881975,0.10748624345023877,0.9880003294144416,0.005064440047137167,200,18,squared_error,False
