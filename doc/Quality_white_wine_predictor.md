@@ -7,14 +7,15 @@ Quality white wine predictor
 -   [Data](#data)
 -   [Methods](#methods)
 -   [Analysis](#analysis)
-    -   [**Data Cleaning and
-        Preprocessing**](#data-cleaning-and-preprocessing)
-    -   [**EDA first conclusions**](#eda-first-conclusions)
-    -   [**Cross Validation**](#cross-validation)
+    -   [Data Cleaning and
+        Preprocessing](#data-cleaning-and-preprocessing)
+    -   [EDA first conclusions](#eda-first-conclusions)
+    -   [Cross Validation](#cross-validation)
+    -   [Packages](#packages)
 -   [Results & Discussion](#results--discussion)
     -   [**Evaluation**](#evaluation)
     -   [**Discussion**](#discussion)
-    -   [References](#references)
+-   [References](#references)
 
 # Summary
 
@@ -61,7 +62,7 @@ of the performance.
 # Data
 
 The wine quality dataset is publicly available on the UCI machine
-learning repository (check the kinks below). The dataset has two files,
+learning repository (check the links below). The dataset has two files,
 red wine and white wine variants of the Portuguese “Vinho Verde” wine.
 It contains a large collection of datasets that have been used for the
 machine learning community. The red wine dataset contains 1599 instances
@@ -72,7 +73,7 @@ scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
 
 -   [UCI
     repository](https://archive.ics.uci.edu/ml/datasets/Wine+Quality)
--   [Wite wine
+-   [White wine
     database](http://open.canada.ca/data/en/dataset/b374f60b-9580-44dc-83f6-c0a850c15f30)
 
 Input variables:
@@ -136,7 +137,7 @@ using the following algorithms to perform this task:
 
 # Analysis
 
-## **Data Cleaning and Preprocessing**
+### Data Cleaning and Preprocessing
 
 The first step clean and prepare the data for analysis. First, It is
 necessary to checked the data types focusing on numerical and
@@ -153,7 +154,7 @@ dataset in two parts, one for training and one for testing. The model
 building and tuning is done in the training set, and then we use the
 test set to predict new values and evaluate the results.
 
-## **EDA first conclusions**
+### EDA first conclusions
 
 According to our first EDA, we do not have a balanced database, our
 wines are concentrated around quality 5 and 7.5 (around 80% of data
@@ -192,7 +193,7 @@ The chart below can show up these findings:
 
 ![](../results/relationship_between_individual_features_and_the_quality_1.PNG)<!-- -->
 
-## **Cross Validation**
+### Cross Validation
 
 In order to evaluate the best model, we will use the cross validation
 approach to support our decision. The original dataset is partitioned in
@@ -203,16 +204,28 @@ prediction several times. Then, the result with the best RMSE, accuracy,
 AUC or the chosen metric is selected. This process can be used in
 conjunction to tuning parameters.
 
+### Packages
+
+A relevant point to be mentioned is what libraries are we using in this
+analysis. We are using (Pedregosa et al. 2011), (Van Rossum and Drake
+2009), (team 2020), (Xie, n.d.), (Harris et al. 2020) and (Virtanen et
+al. 2020), (Römer and Kraska 2007), (Sievert 2018) and (Joblib
+Development Team 2020)
+
 # Results & Discussion
 
 ## **Evaluation**
 
 After running the models, we used the test-score metrics to evaluate our
 model prediction performance. As we can assess into the table below,
-Model KNN is the best in terms of test-score metrics, with XXX in
-comparison with other models (XXXXX)
+model KNN have a *R*<sup>2</sup> = 0.54 which is the best value in
+comparison with the other models
 
-![](../results/dummy_table.PNG)<!-- -->
+| model |  r2_score | mse_score | rmae_score | mae_score | mse_log_score | mae_log_score |
+|:------|----------:|----------:|-----------:|----------:|--------------:|--------------:|
+| KNN   | 0.5453724 | 0.3537442 |   0.594764 | 0.3923278 |     0.0081026 |     0.2672034 |
+
+Table 1:
 
 In the context of our business question focusing on the prediction of
 white wine quality, it is reasonable that KNN gives us superior
@@ -240,6 +253,81 @@ down the accuracy of our predicting quality of white wine. The solution
 for this is to include more relevant data features, like the year of
 harvest, brew time, etc.
 
-## References
+# References
 
-DUMMY!!!
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-2020NumPy-Array" class="csl-entry">
+
+Harris, Charles R., K. Jarrod Millman, Stéfan J van der Walt, Ralf
+Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, et al. 2020.
+“Array Programming with NumPy.” *Nature* 585: 357–62.
+<https://doi.org/10.1038/s41586-020-2649-2>.
+
+</div>
+
+<div id="ref-Joblib" class="csl-entry">
+
+Joblib Development Team. 2020. *Joblib: Running Python Functions as
+Pipeline Jobs*. <https://joblib.readthedocs.io/>.
+
+</div>
+
+<div id="ref-scikit-learn" class="csl-entry">
+
+Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O.
+Grisel, M. Blondel, et al. 2011. “Scikit-Learn: Machine Learning in
+Python.” *Journal of Machine Learning Research* 12: 2825–30.
+
+</div>
+
+<div id="ref-romer2007homogeneous" class="csl-entry">
+
+Römer, F, and T Kraska. 2007. “Homogeneous Nucleation and Growth in
+Supersaturated Zinc Vapor Investigated by Molecular Dynamics
+Simulation.” *The Journal of Chemical Physics* 127 (23): 234509.
+
+</div>
+
+<div id="ref-2018-altair" class="csl-entry">
+
+Sievert, Jacob VanderPlas AND Brian E. Granger AND Jeffrey Heer AND
+Dominik Moritz AND Kanit Wongsuphasawat AND Arvind Satyanarayan AND
+Eitan Lees AND Ilia Timofeev AND Ben Welsh AND Scott. 2018. “Altair:
+Interactive Statistical Visualizations for Python.” *The Journal of Open
+Source Software* 3 (32). <http://idl.cs.washington.edu/papers/altair>.
+
+</div>
+
+<div id="ref-reback2020pandas" class="csl-entry">
+
+team, The pandas development. 2020. *Pandas-Dev/Pandas: Pandas* (version
+latest). Zenodo. <https://doi.org/10.5281/zenodo.3509134>.
+
+</div>
+
+<div id="ref-Python" class="csl-entry">
+
+Van Rossum, Guido, and Fred L. Drake. 2009. *Python 3 Reference Manual*.
+Scotts Valley, CA: CreateSpace.
+
+</div>
+
+<div id="ref-2020SciPy-NMeth" class="csl-entry">
+
+Virtanen, Pauli, Ralf Gommers, Travis E. Oliphant, Matt Haberland, Tyler
+Reddy, David Cournapeau, Evgeni Burovski, et al. 2020. “<span
+class="nocase">SciPy 1.0: Fundamental Algorithms for Scientific
+Computing in Python</span>.” *Nature Methods* 17: 261–72.
+<https://doi.org/10.1038/s41592-019-0686-2>.
+
+</div>
+
+<div id="ref-knitr" class="csl-entry">
+
+Xie, Yihui. n.d. *Knitr: A General-Purpose Package for Dynamic Report
+Generation in r*. <https://yihui.org/knitr/>.
+
+</div>
+
+</div>
