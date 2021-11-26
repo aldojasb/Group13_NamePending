@@ -64,9 +64,19 @@ Input variables:
 5.  **Bayes**: is an algorithm that uses Bayes' theorem to classify objects. Naive Bayes classifiers assume strong, or naive, independence between attributes of data points. Popular uses of naive Bayes classifiers include spam filters, text analysis and medical diagnosis.
 6.  **SVM**: is machine learning algorithm that analyzes data for classification and regression analysis. SVM is a supervised learning method that looks at data and sorts it into one of two categories. An SVM outputs a map of the sorted data with the margins between the two as far apart as possible.
 
-**EDA first conclusions**
+# Analysis
+
+
+## **Data Cleaning and Preprocessing**
+
+
+
+
+## **EDA first conclusions**
 
 According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol level, the better the wine quality. Additionally, the smaller the chlorides and total sulphur dioxide the better the wine quality. Some variables seem do not influence wine quality on their own. When combining these variables, they might indeed influence wine quality.
+
+According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). The image bellow can clear shows up this first finding:
 
 ```{r}
 knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
@@ -74,9 +84,35 @@ knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
 
 ```
 
-# Analysis
+Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol, Sulphates and ph levels the better the wine quality. We can check these information on the chart above:
 
-xxxx
+```{r}
+knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_3.PNG")
+
+
+```
+
+
+Following the same idea, we there are some evidences that the smaller the chlorides, Free Sulfur Dioxide, total sulphur dioxide and density levels, the better the wine quality. The chart bellow ilustrates these findings:
+
+```{r}
+knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_2.PNG")
+
+
+```
+
+For some variables like Fixed acidity, Volatile acidity, Citric Acid and Residual sugar seem do not influence wine quality on their own. However, we need to take care with this statement since when they are combining with other variables above, they might indeed influence wine quality. The chart bellow can show up these findings:
+
+```{r}
+knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_1.PNG")
+
+
+```
+
+## **Cross Validation**
+
+
+
 
 # Results & Discussion
 
