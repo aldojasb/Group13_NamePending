@@ -7,7 +7,7 @@ Options:
 --r_path=<arg2>      Path (not including filename) of where to write the file
 
 Example:
-python analysis.py --m_path=results/raw_results/ --r_path=result/
+python analysis.py --m_path=results/raw_results --r_path=results
 """
 
 
@@ -15,23 +15,21 @@ from docopt import docopt
 from pandas.io.parsers import read_csv
 from pathlib import Path
 import pandas as pd
+import numpy as np
 from joblib import dump, load
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import  mean_absolute_error, mean_squared_error, mean_squared_log_error, median_absolute_error, r2_score
 
 def main():
-
-    # parse arguments
     args = docopt(__doc__)
-
-    # assign args to variables
     model_path = args['--m_path']
     result_path = args['--r_path']
 
-    # load model
-    # model = ml.load_model(model_path)
-    path = 'data/processed/'
-    X_test = read_csv(path + 'X_test.csv')
-    y_test = read_csv(path + 'y_test.csv')
+    data_processed_path = 'data/processed/' # hardcoded for now since I don't want too many arguments
+    X_test = read_csv(data_processed_path
+                      + 'X_test.csv')
+    y_test = read_csv(data_processed_path
+                      + 'y_test.csv')
+
     X_test = X_test.drop('Unnamed: 0', axis=1)
     y_test = y_test.drop('Unnamed: 0', axis=1)
 
@@ -54,26 +52,29 @@ def main():
     
     best_model = load(
         f'results/raw_results/{best_model_name}/{best_model_name}.joblib')
-    # find the score of the best model
-    best_score = best_model.score(X_test, y_test)
 
-    # ml performance
-    print(f"Best model: {best_model_name}")
-    print(f"Best score: {best_score}")
+    # get the scoring from the best model
+    predictions = best_model.predict(X_test)
+    r_2_score = r2_score(y_test, predictions)
+    mse_score = mean_squared_error(y_test, predictions)
+    rmae_score = np.sqrt(mse_score)
+    mae_score = mean_absolute_error(y_test, predictions)
+    mse_log_score = mean_squared_log_error(y_test, predictions)
+    mae_log_score = median_absolute_error(y_test, predictions)
+ 
+    results = pd.DataFrame(
+        {
+            'r2_score': [r_2_score],
+            'mse_score': [mse_score],
+            'rmae_score': [rmae_score],
+            'mae_score': [mae_score],
+            'mse_log_score': [mse_log_score],
+            'mae_log_score': [mae_log_score],
+        }
+    )
 
-   
-
-    # print(X_test)
-    # test model
-    # results = model.score(X_test, y_test)
-    # print(results)
-
-
-    # path = Path(path)
-    # path.mkdir(parents=True, exist_ok=True)
-
-    # results = pd.DataFrame(results)
-    # results.to_csv(f"{path}/{path.name}.csv")
+    results.to_csv(f"{result_path}/best_model.csv", index=False)
+    print('best_model.csv created at location /{}/'.format(result_path))
 
 
 if __name__ == "__main__":
