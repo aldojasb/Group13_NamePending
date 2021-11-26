@@ -37,9 +37,18 @@ from docopt import docopt
 
 def read_data(path):
     """
-    TODO: docs
+    Reads the data stored in `X_train.csv` and `y_train.csv`.
+
+    Parameters
+    -----------
+    path : string
+        The path to the folder containing the train files.
+
+    Returns
+    ----------
+    X_train, y_train: (pd.DataFrame, pd.DataFrame)
+        The dataframes read from the csv files.
     TODO: tests
-    TODO: does this even need to be in a function?
     """
     X_path = f"{path}/X_train.csv"
     y_path = f"{path}/y_train.csv"
@@ -51,9 +60,30 @@ def read_data(path):
 
 def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
     """
-    TODO: docs
+    Fits the model to the given training data.
+
+    Also does hyperparameter optimization using RandomizedSearchCV.
+
+    Parameters
+    -----------
+    model : sklearn model
+        The model to train
+    X_train : pd.DataFrame
+        The features to train on
+    y_train : pd.DataFrame
+        The labels of the features
+    params : dict
+        A dictionary containing the the hyperparameters to optimize
+    metrics : string
+        A string of the evaluation metric to use
+    n_iter : int
+        Number of hyperparameter combinations to try
+
+    Returns
+    ----------
+    searcher: sklearn pipeline
+        The fit model
     TODO: tests
-    Returns the fit model
     """
     pipe = make_pipeline(
         StandardScaler(),
@@ -62,7 +92,7 @@ def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
     searcher = RandomizedSearchCV(
         pipe,
         param_distributions=params,
-        n_jobs=-1,
+        n_jobs=2,
         n_iter=n_iter,
         cv=5,
         random_state=522,
@@ -76,9 +106,19 @@ def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
 
 def save_results(results, model, path):
     """
-    TODO: docs
+    Saves the cross_validation results and the model
+    creating directories as required. The results are saved
+    as a csv file and the model is saved as a joblib file.
+
+    Parameters
+    -----------
+    results : dict
+        The cross-validation results
+    model : sklearn model
+        The model to save
+    path : string
+        The folder to save the files to
     TODO: tests
-    Saves the raw cross validation results
     """
     path = Path(path)
     path.mkdir(parents=True, exist_ok=True)
@@ -90,9 +130,17 @@ def save_results(results, model, path):
 
 def load_model(path):
     """
-    TODO: docs
+    Loads the .joblib file at the given path.
+
+    Parameters
+    -----------
+    path : string
+        The path to the .joblib file containing the model.
+
+    Returns
+    -----------
+    The loaded model object
     TODO: tests
-    Returns the loaded model
     """
     return load(path)
 
@@ -132,7 +180,7 @@ def main():
             "ridge__alpha": np.logspace(-3, 2, 6)
         },
         "Random Forest": {
-            "randomforestregressor__n_estimators": np.arange(10, 500, 10),
+            "randomforestregressor__n_estimators": np.arange(10, 100, 10),
             "randomforestregressor__criterion": [
                 "squared_error",
                 "absolute_error",
@@ -167,9 +215,10 @@ def main():
 
     # Hyperparameter optimization for each model
     for model_name in models:
+        print(f"Starting to train {model_name}...")
         models[model_name] = fit_model(models[model_name], X_train, y_train,
                                        param_grid[model_name], metrics=metrics,
-                                       n_iter=1)
+                                       n_iter=10)
         results = models[model_name].cv_results_
         results = pd.DataFrame(results)
         results = results[
@@ -182,6 +231,7 @@ def main():
         model = models[model_name].best_estimator_
 
         save_results(results, model, f"{save_path}/{model_name}")
+        print(f"Finished training {model_name}!\n", "-" * 12)
 
 
 if __name__ == "__main__":
