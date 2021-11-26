@@ -31,7 +31,8 @@ def main():
     y_test = read_csv(data_processed_path
                       + 'y_test.csv')
 
-    
+    # list of models to run
+    # modify this list to add more models
     models = {
         "Dummy",
         "Ridge",
