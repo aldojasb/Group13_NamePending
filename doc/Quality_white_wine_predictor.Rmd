@@ -2,10 +2,10 @@
 title: "Quality white wine predictor"
 bibliography: reference.bib
 output: 
-  github_document:
-    toc: True
   html_document: 
     toc: true
+  github_document:
+    toc: True
 ---
 
 ```{r setup, include=FALSE}
@@ -66,17 +66,17 @@ Input variables:
 
 # Analysis
 
-
 ## **Data Cleaning and Preprocessing**
 
+The first step clean and prepare the data for analysis. First, It is necessary to checked the data types focusing on numerical and categorical to simplify the correlation's computation and visualization. Second, it's necessary to identify any missing values existing in our data set. Last, it's relevant to research each column/feature's statistical summary to detect any problem like outliers and abnormal distributions.
 
-
+After, data preprocessing is crucial in any data mining process as they directly impact success rate of the project. This reduces complexity of the data under analysis as data in real world is unclean. we split the dataset in two parts, one for training and one for testing. The model building and tuning is done in the training set, and then we use the test set to predict new values and evaluate the results.
 
 ## **EDA first conclusions**
 
 According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol level, the better the wine quality. Additionally, the smaller the chlorides and total sulphur dioxide the better the wine quality. Some variables seem do not influence wine quality on their own. When combining these variables, they might indeed influence wine quality.
 
-According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). The image bellow can clear shows up this first finding:
+According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). The image below can clear shows up this first finding:
 
 ```{r}
 knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
@@ -84,7 +84,7 @@ knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
 
 ```
 
-Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol, Sulphates and ph levels the better the wine quality. We can check these information on the chart above:
+Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol, Sulphates and ph levels the better the wine quality. We can check these information on the chart below:
 
 ```{r}
 knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_3.PNG")
@@ -92,8 +92,7 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ```
 
-
-Following the same idea, we there are some evidences that the smaller the chlorides, Free Sulfur Dioxide, total sulphur dioxide and density levels, the better the wine quality. The chart bellow ilustrates these findings:
+Following the same idea, we there are some evidences that the smaller the chlorides, Free Sulfur Dioxide, total sulphur dioxide and density levels, the better the wine quality. The chart below ilustrates these findings:
 
 ```{r}
 knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_2.PNG")
@@ -101,7 +100,7 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ```
 
-For some variables like Fixed acidity, Volatile acidity, Citric Acid and Residual sugar seem do not influence wine quality on their own. However, we need to take care with this statement since when they are combining with other variables above, they might indeed influence wine quality. The chart bellow can show up these findings:
+For some variables like Fixed acidity, Volatile acidity, Citric Acid and Residual sugar seem do not influence wine quality on their own. However, we need to take care with this statement since when they are combining with other variables above, they might indeed influence wine quality. The chart below can show up these findings:
 
 ```{r}
 knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_1.PNG")
@@ -111,11 +110,30 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ## **Cross Validation**
 
-
-
+In order to evaluate the best model, we will use the cross validation approach to support our decision. The original dataset is partitioned in the training set used to train the model, and the test set used to predict the values with the trained model. Cross validation partitions the training set in the same way and performs the training and prediction several times. Then, the result with the best RMSE, accuracy, AUC or the chosen metric is selected. This process can be used in conjunction to tuning parameters.
 
 # Results & Discussion
 
-We gonna use the test score to decide what is the best model to our quality predictor xxxx
+## **Evaluation**
+
+After running the models, we used the test-score metrics to evaluate our model prediction performance. As we can assess into the table below, Model KNN is the best in terms of test-score metrics, with XXX in comparison with other models (XXXXX)
+
+```{r}
+knitr::include_graphics("../results/dummy_table.PNG")
+
+
+```
+
+In the context of our business question focusing on the prediction of white wine quality, it is reasonable that KNN gives us superior "predictions".
+
+## **Discussion**
+
+By analyzing the physicochemical tests samples data of white wines from the north of Portugal, we were able to create a model that can help industry producers, distributors, and sellers predict the quality of white wine products and have a better understanding of each critical and up-to-date features. the KNN Model performed better than others.
+
+It is relevant to mention that there are some limitations for this analysis. First, the main problem came from the fact that our data set was unbalanced. A majority of the quality values were around 5 and 6, which made no significant contribution to finding an optimal model. These values might made it harder to identify each factor's different influence on a "high" or "low" quality of the wine, which was the main focus of this analysis. In order to improve our predictive model, we need more balanced data.
+
+Another limitation is that we have only 12 attributes, which can narrow down the accuracy of our predicting quality of white wine. The solution for this is to include more relevant data features, like the year of harvest, brew time, etc.
 
 ## References
+
+DUMMY!!!
