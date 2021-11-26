@@ -1,0 +1,87 @@
+---
+title: "Quality white wine predictor"
+bibliography: reference.bib
+output: 
+  github_document:
+    toc: True
+  html_document: 
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(knitr)
+```
+
+# Summary
+
+This report uses the white wine database from "vinho verde" to predict the quality based on physicochemical properties. Quality is a subjective measure, given by the average grade of three experts.
+
+Before starting the predictions, the report makes a Explanatory data analysis (EDA) to look for features that may provide good prediction results, and also makes an short explanation about the metrics used in the models. In data preparation, the database are downloaded and processed in python. In this phase, the training and testing sets are created and they will be used during the model building.
+
+There's a brief explanation of the models used in this report. Other important machine learning concepts, such as ensemble and cross validation, are also discussed.
+
+The results section presents the best model for predicting quality and discuss why it was chosen for this purpose.
+
+# Goal
+
+This project aims to determine a model to predict wine quality given measurable wine features.
+
+# Introduction
+
+According to experts, wine is differentiated according to its smell, flavour, and colour, but most people are not wine experts to say that wine is good or bad. The quality of the wine is determined by many variables including, but not limited to, the ones mentioned previously. The quality of a wine is important for the consumers as well as the wine industry. For instance, industry players are using product quality certifications to promote their products. However, this is a time-consuming process and requires the assessment given by human experts, which makes this process very expensive. Nowadays, machine learning models are important tools to replace human tasks and, in this case, a good wine quality prediction can be very useful in the certification phase. For example, an automatic predictive system can be integrated into a decision support system, helping the speed and quality of the performance.
+
+# Methods
+
+**How to analyze the data** Our task here is to focus on what white wine features are important to get the promising result. For the purpose of classification model and evaluation of the relevant features, we are using algorithms such as
+
+1.  DummyRegressor(),
+2.  Ridge
+3.  Random Forest
+4.  KNN
+5.  Bayes
+6.  SVM
+
+We gonna use the test score to decide what is the best model to our quality predictor
+
+# Data
+
+The wine quality dataset is publicly available on the UCI machine learning repository (check the kinks below). The dataset has two files, red wine and white wine variants of the Portuguese "Vinho Verde" wine. It contains a large collection of datasets that have been used for the machine learning community. The red wine dataset contains 1599 instances and the white wine dataset contains 4898 instances. Both files contain 11 input features and 1 output feature. Input features are based on the physicochemical tests and output variable based on sensory data is scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
+
+-   [UCI repository](https://archive.ics.uci.edu/ml/datasets/Wine+Quality)
+-   [Wite wine database](http://open.canada.ca/data/en/dataset/b374f60b-9580-44dc-83f6-c0a850c15f30)
+
+Input variables:
+
+1.  fixed acidity
+2.  volatile acidity
+3.  citric acid
+4.  residual sugar
+5.  chlorides
+6.  free sulfur dioxide
+7.  total sulfur dioxide
+8.  density
+9.  pH
+10. sulphates
+11. alcohol
+
+**EDA first conclusions**
+
+According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol level, the better the wine quality. Additionally, the smaller the chlorides and total sulphur dioxide the better the wine quality. Some variables seem do not influence wine quality on their own. When combining these variables, they might indeed influence wine quality.
+
+```{r}
+knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
+
+
+```
+
+# Analysis
+
+xxxx
+
+# Results & Discussion
+
+xxxx
+
+## References
