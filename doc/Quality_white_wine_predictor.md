@@ -11,6 +11,7 @@ Quality white wine predictor
         Preprocessing](#data-cleaning-and-preprocessing)
     -   [EDA first conclusions](#eda-first-conclusions)
     -   [Cross Validation](#cross-validation)
+    -   [Hyperparameter tuning](#hyperparameter-tuning)
     -   [Packages](#packages)
 -   [Results & Discussion](#results--discussion)
     -   [**Evaluation**](#evaluation)
@@ -23,7 +24,7 @@ This report uses the white wine database from “vinho verde” to predict
 the quality based on physicochemical properties. Quality is a subjective
 measure, given by the average grade of three experts.
 
-Before starting the predictions, the report makes a Explanatory data
+Before starting the predictions, the report performs an exploratory data
 analysis (EDA) to look for features that may provide good prediction
 results, and also makes an short explanation about the metrics used in
 the models. In data preparation, the database are downloaded and
@@ -101,10 +102,10 @@ Input variables:
 
 **How to analyze the data** Our task here is to focus on what white wine
 features are important to get the promising result. For the purpose of
-classification model and evaluation of the relevant features, we are
-using the following algorithms to perform this task:
+regression model and evaluation of the relevant features, we are using
+the following algorithms to perform this task:
 
-1.  **DummyRegressor()**: is one that takes only the value 0 or 1 to
+1.  **DummyRegressor**: is one that takes only the value 0 or 1 to
     indicate the absence or presence of some categorical effect that may
     be expected to shift the outcome.
 2.  **Ridge**: is a model tuning method that is used to analyse any data
@@ -158,15 +159,6 @@ test set to predict new values and evaluate the results.
 
 According to our first EDA, we do not have a balanced database, our
 wines are concentrated around quality 5 and 7.5 (around 80% of data
-points). Besides, we have a couple of signs about some variables. For
-instance, it appears that the higher the alcohol level, the better the
-wine quality. Additionally, the smaller the chlorides and total sulphur
-dioxide the better the wine quality. Some variables seem do not
-influence wine quality on their own. When combining these variables,
-they might indeed influence wine quality.
-
-According to our first EDA, we do not have a balanced database, our
-wines are concentrated around quality 5 and 7.5 (around 80% of data
 points). The image below can clear shows up this first finding:
 
 ![](../results/Distribution_of_white_wine_quality.PNG)<!-- -->
@@ -200,9 +192,17 @@ approach to support our decision. The original dataset is partitioned in
 the training set used to train the model, and the test set used to
 predict the values with the trained model. Cross validation partitions
 the training set in the same way and performs the training and
-prediction several times. Then, the result with the best RMSE, accuracy,
-AUC or the chosen metric is selected. This process can be used in
-conjunction to tuning parameters.
+prediction several times. Then, the result with the best *R*<sup>2</sup>
+will be selected.
+
+### Hyperparameter tuning
+
+In this analysis, we also performed the Hyperparameter optimization
+since the same kind of machine learning model can require different
+constraints, weights or learning rates to generalize different data
+patterns. Hyperparameter optimization finds a tuple of hyperparameters
+that yields an optimal model which minimizes a predefined loss function
+on given independent data.
 
 ### Packages
 
@@ -248,10 +248,13 @@ influence on a “high” or “low” quality of the wine, which was the main
 focus of this analysis. In order to improve our predictive model, we
 need more balanced data.
 
-Another limitation is that we have only 12 attributes, which can narrow
+Another limitation is that we have only 12 attributes that can narrow
 down the accuracy of our predicting quality of white wine. The solution
 for this is to include more relevant data features, like the year of
-harvest, brew time, etc.
+harvest, brew time, etc. So that our *R*<sup>2</sup> (0.54) could be
+improved, since the value that we obtained is not close to 0.7 or 0.8.
+Those are considered, as a rule of thumb, relevant *R*<sup>2</sup>
+values for a regression.
 
 # References
 

@@ -4,9 +4,9 @@ bibliography: reference.bib
 output:
   github_document:
     toc: yes
-  pdf_document:
-    toc: yes
   html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -20,7 +20,7 @@ library(knitr)
 
 This report uses the white wine database from "vinho verde" to predict the quality based on physicochemical properties. Quality is a subjective measure, given by the average grade of three experts.
 
-Before starting the predictions, the report makes a Explanatory data analysis (EDA) to look for features that may provide good prediction results, and also makes an short explanation about the metrics used in the models. In data preparation, the database are downloaded and processed in python. In this phase, the training and testing sets are created and they will be used during the model building.
+Before starting the predictions, the report performs an exploratory data analysis (EDA) to look for features that may provide good prediction results, and also makes an short explanation about the metrics used in the models. In data preparation, the database are downloaded and processed in python. In this phase, the training and testing sets are created and they will be used during the model building.
 
 There's a brief explanation of the models used in this report. Other important machine learning concepts, such as ensemble and cross validation, are also discussed.
 
@@ -57,9 +57,9 @@ Input variables:
 
 # Methods
 
-**How to analyze the data** Our task here is to focus on what white wine features are important to get the promising result. For the purpose of classification model and evaluation of the relevant features, we are using the following algorithms to perform this task:
+**How to analyze the data** Our task here is to focus on what white wine features are important to get the promising result. For the purpose of regression model and evaluation of the relevant features, we are using the following algorithms to perform this task:
 
-1.  **DummyRegressor()**: is one that takes only the value 0 or 1 to indicate the absence or presence of some categorical effect that may be expected to shift the outcome.
+1.  **DummyRegressor**: is one that takes only the value 0 or 1 to indicate the absence or presence of some categorical effect that may be expected to shift the outcome.
 2.  **Ridge**: is a model tuning method that is used to analyse any data that suffers from multicollinearity. This method performs L2 regularization. When the issue of multicollinearity occurs, least-squares are unbiased, and variances are large, this results in predicted values to be far away from the actual values.
 3.  **Random Forest**: is an ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. For regression tasks, the mean or average prediction of the individual trees is returned
 4.  **KNN**: is an approach to data classification that estimates how likely a data point is to be a member of one group or the other depending on what group the data points nearest to it are in.The k-nearest-neighbor is an example of a "lazy learner" algorithm, meaning that it does not build a model using the training set until a query of the data set is performed.
@@ -75,8 +75,6 @@ The first step clean and prepare the data for analysis. First, It is necessary t
 After, data preprocessing is crucial in any data mining process as they directly impact success rate of the project. This reduces complexity of the data under analysis as data in real world is unclean. we split the dataset in two parts, one for training and one for testing. The model building and tuning is done in the training set, and then we use the test set to predict new values and evaluate the results.
 
 ### EDA first conclusions
-
-According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol level, the better the wine quality. Additionally, the smaller the chlorides and total sulphur dioxide the better the wine quality. Some variables seem do not influence wine quality on their own. When combining these variables, they might indeed influence wine quality.
 
 According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). The image below can clear shows up this first finding:
 
@@ -112,7 +110,11 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ### Cross Validation
 
-In order to evaluate the best model, we will use the cross validation approach to support our decision. The original dataset is partitioned in the training set used to train the model, and the test set used to predict the values with the trained model. Cross validation partitions the training set in the same way and performs the training and prediction several times. Then, the result with the best RMSE, accuracy, AUC or the chosen metric is selected. This process can be used in conjunction to tuning parameters.
+In order to evaluate the best model, we will use the cross validation approach to support our decision. The original dataset is partitioned in the training set used to train the model, and the test set used to predict the values with the trained model. Cross validation partitions the training set in the same way and performs the training and prediction several times. Then, the result with the best $R^2$ will be selected.
+
+### Hyperparameter tuning
+
+In this analysis, we also performed the Hyperparameter optimization since the same kind of machine learning model can require different constraints, weights or learning rates to generalize different data patterns. Hyperparameter optimization finds a tuple of hyperparameters that yields an optimal model which minimizes a predefined loss function on given independent data.
 
 ### Packages
 
@@ -139,6 +141,6 @@ By analyzing the physicochemical tests samples data of white wines from the nort
 
 It is relevant to mention that there are some limitations for this analysis. First, the main problem came from the fact that our data set was unbalanced. A majority of the quality values were around 5 and 6, which made no significant contribution to finding an optimal model. These values might made it harder to identify each factor's different influence on a "high" or "low" quality of the wine, which was the main focus of this analysis. In order to improve our predictive model, we need more balanced data.
 
-Another limitation is that we have only 12 attributes, which can narrow down the accuracy of our predicting quality of white wine. The solution for this is to include more relevant data features, like the year of harvest, brew time, etc.
+Another limitation is that we have only 12 attributes that can narrow down the accuracy of our predicting quality of white wine. The solution for this is to include more relevant data features, like the year of harvest, brew time, etc. So that our $R^2$ (0.54) could be improved, since the value that we obtained is not close to 0.7 or 0.8. Those are considered, as a rule of thumb, relevant $R^2$ values for a regression.
 
 # References
