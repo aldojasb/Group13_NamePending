@@ -31,9 +31,6 @@ def main():
     y_test = read_csv(data_processed_path
                       + 'y_test.csv')
 
-    X_test = X_test.drop('Unnamed: 0', axis=1)
-    y_test = y_test.drop('Unnamed: 0', axis=1)
-
     
     models = {
         "Dummy",

@@ -44,10 +44,10 @@ def main():
     X_train, y_train = train_df.drop(columns=["quality"]), train_df["quality"]
     X_test, y_test = test_df.drop(columns=["quality"]), test_df["quality"]
 
-    X_train.to_csv (f"{output_location}/X_train.csv")
-    y_train.to_csv(f"{output_location}/y_train.csv")
-    X_test.to_csv (f"{output_location}/X_test.csv")
-    y_test.to_csv(f"{output_location}/y_test.csv")
+    X_train.to_csv(f"{output_location}/X_train.csv", index=False)
+    y_train.to_csv(f"{output_location}/y_train.csv", index=False)
+    X_test.to_csv(f"{output_location}/X_test.csv", index=False)
+    y_test.to_csv(f"{output_location}/y_test.csv", index=False)
        
 if __name__ == "__main__":
     main()
