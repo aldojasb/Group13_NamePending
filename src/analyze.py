@@ -44,7 +44,8 @@ def main():
     best_test_score = 0
     best_model_name = None
 
-    # choose the best model to run against the test data
+    # choose the best model from the csv scores
+    # which has the highest test score
     for model in models:
         r_data = read_csv(f'results/raw_results/{model}/{model}.csv')
         if r_data['mean_test_score'].values[0] > best_test_score:
