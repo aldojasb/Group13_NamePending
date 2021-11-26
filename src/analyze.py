@@ -55,7 +55,7 @@ def main():
     best_model = load(
         f'results/raw_results/{best_model_name}/{best_model_name}.joblib')
 
-    # get the scors and save them to a csv file
+    # compute the model scores and save it for later analysis
     predictions = best_model.predict(X_test)
     r_2_score = r2_score(y_test, predictions)
     mse_score = mean_squared_error(y_test, predictions)
