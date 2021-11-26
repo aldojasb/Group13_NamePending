@@ -1,13 +1,14 @@
 """
-This script test the model
-Usage: test_model.py --m_path=<arg1> --r_path=<arg2>
+This script analyzes the results of the models,
+choose the best model to run against the test data
+and saves the scores to a csv file.
+Usage: analysis.py --r_path=<arg1>
 
 Options:
---m_path=<arg1>       Path (not including filename) of where to locate the model file
---r_path=<arg2>      Path (not including filename) of where to write the file
+--r_path=<arg1>      Path to write the results to
 
 Example:
-python analysis.py --m_path=results/raw_results --r_path=results
+python analysis.py --r_path=results
 """
 
 
@@ -21,7 +22,6 @@ from sklearn.metrics import  mean_absolute_error, mean_squared_error, mean_squar
 
 def main():
     args = docopt(__doc__)
-    model_path = args['--m_path']
     result_path = args['--r_path']
 
     data_processed_path = 'data/processed/' # hardcoded for now since I don't want too many arguments
@@ -64,6 +64,7 @@ def main():
  
     results = pd.DataFrame(
         {
+            'model': [best_model_name],
             'r2_score': [r_2_score],
             'mse_score': [mse_score],
             'rmae_score': [rmae_score],
