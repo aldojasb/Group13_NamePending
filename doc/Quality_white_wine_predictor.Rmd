@@ -32,19 +32,6 @@ This project aims to determine a model to predict wine quality given measurable 
 
 According to experts, wine is differentiated according to its smell, flavour, and colour, but most people are not wine experts to say that wine is good or bad. The quality of the wine is determined by many variables including, but not limited to, the ones mentioned previously. The quality of a wine is important for the consumers as well as the wine industry. For instance, industry players are using product quality certifications to promote their products. However, this is a time-consuming process and requires the assessment given by human experts, which makes this process very expensive. Nowadays, machine learning models are important tools to replace human tasks and, in this case, a good wine quality prediction can be very useful in the certification phase. For example, an automatic predictive system can be integrated into a decision support system, helping the speed and quality of the performance.
 
-# Methods
-
-**How to analyze the data** Our task here is to focus on what white wine features are important to get the promising result. For the purpose of classification model and evaluation of the relevant features, we are using algorithms such as
-
-1.  DummyRegressor(),
-2.  Ridge
-3.  Random Forest
-4.  KNN
-5.  Bayes
-6.  SVM
-
-We gonna use the test score to decide what is the best model to our quality predictor
-
 # Data
 
 The wine quality dataset is publicly available on the UCI machine learning repository (check the kinks below). The dataset has two files, red wine and white wine variants of the Portuguese "Vinho Verde" wine. It contains a large collection of datasets that have been used for the machine learning community. The red wine dataset contains 1599 instances and the white wine dataset contains 4898 instances. Both files contain 11 input features and 1 output feature. Input features are based on the physicochemical tests and output variable based on sensory data is scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
@@ -54,17 +41,28 @@ The wine quality dataset is publicly available on the UCI machine learning repos
 
 Input variables:
 
-1.  fixed acidity
-2.  volatile acidity
-3.  citric acid
-4.  residual sugar
-5.  chlorides
-6.  free sulfur dioxide
-7.  total sulfur dioxide
-8.  density
-9.  pH
-10. sulphates
-11. alcohol
+1.  **Alcohol**: the amount of alcohol in wine
+2.  **Volatile acidity**: are high acetic acid in wine which leads to an unpleasant vinegar taste
+3.  **Sulphates**: a wine additive that contributes to SO2 levels and acts as an antimicrobial and antioxidant
+4.  **Citric Acid**: acts as a preservative to increase acidity (small quantities add freshness and flavor to wines)
+5.  **Total Sulfur Dioxide**: is the amount of free + bound forms of SO2
+6.  **Density**: sweeter wines have a higher density
+7.  **Chlorides**: the amount of salt in the wine
+8.  **Fixed acidity**: are non-volatile acids that do not evaporate readily
+9.  **pH**: the level of acidity
+10. **Free Sulfur Dioxide**: it prevents microbial growth and the oxidation of wine
+11. **Residual sugar**: is the amount of sugar remaining after fermentation stops. The key is to have a perfect balance between — sweetness and sourness (wines > 45g/ltrs are sweet)
+
+# Methods
+
+**How to analyze the data** Our task here is to focus on what white wine features are important to get the promising result. For the purpose of classification model and evaluation of the relevant features, we are using the following algorithms to perform this task:
+
+1.  **DummyRegressor()**: is one that takes only the value 0 or 1 to indicate the absence or presence of some categorical effect that may be expected to shift the outcome.
+2.  **Ridge**: is a model tuning method that is used to analyse any data that suffers from multicollinearity. This method performs L2 regularization. When the issue of multicollinearity occurs, least-squares are unbiased, and variances are large, this results in predicted values to be far away from the actual values.
+3.  **Random Forest**: is an ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. For regression tasks, the mean or average prediction of the individual trees is returned
+4.  **KNN**: is an approach to data classification that estimates how likely a data point is to be a member of one group or the other depending on what group the data points nearest to it are in.The k-nearest-neighbor is an example of a "lazy learner" algorithm, meaning that it does not build a model using the training set until a query of the data set is performed.
+5.  **Bayes**: is an algorithm that uses Bayes' theorem to classify objects. Naive Bayes classifiers assume strong, or naive, independence between attributes of data points. Popular uses of naive Bayes classifiers include spam filters, text analysis and medical diagnosis.
+6.  **SVM**: is machine learning algorithm that analyzes data for classification and regression analysis. SVM is a supervised learning method that looks at data and sorts it into one of two categories. An SVM outputs a map of the sorted data with the margins between the two as far apart as possible.
 
 **EDA first conclusions**
 
@@ -82,6 +80,6 @@ xxxx
 
 # Results & Discussion
 
-xxxx
+We gonna use the test score to decide what is the best model to our quality predictor xxxx
 
 ## References
