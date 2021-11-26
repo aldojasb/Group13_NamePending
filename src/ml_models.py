@@ -106,9 +106,15 @@ def main():
     # Read in pre-processed data
     X_train, y_train = read_data(train_path)
     data = pd.concat([X_train, y_train], axis=1)
+
+    # print(data)
+
     y_train = data["quality"]
     X_train = data.drop("quality", axis=1)
+    X_train = X_train.drop("Unnamed: 0", axis=1)
 
+    print(X_train)
+   
     # Create models and hyperparameters
     models = {
         "Dummy": DummyRegressor(),
