@@ -48,7 +48,6 @@ def read_data(path):
     ----------
     X_train, y_train: (pd.DataFrame, pd.DataFrame)
         The dataframes read from the csv files.
-    TODO: tests
     """
     X_path = f"{path}/X_train.csv"
     y_path = f"{path}/y_train.csv"
@@ -83,7 +82,6 @@ def fit_model(model, X_train, y_train, params, metrics=None, n_iter=50):
     ----------
     searcher: sklearn pipeline
         The fit model
-    TODO: tests
     """
     pipe = make_pipeline(
         StandardScaler(),
@@ -118,7 +116,6 @@ def save_results(results, model, path):
         The model to save
     path : string
         The folder to save the files to
-    TODO: tests
     """
     path = Path(path)
     path.mkdir(parents=True, exist_ok=True)
@@ -140,7 +137,6 @@ def load_model(path):
     Returns
     -----------
     The loaded model object
-    TODO: tests
     """
     return load(path)
 
@@ -151,13 +147,19 @@ def main():
     train_path = args["<train_path>"]
     save_path = args["<save_path>"]
 
+    # Tests TODO: add more
+    assert len(read_data(train_path)) == 2, \
+        "read_data didn't return 2 elements"
+    assert len(read_data(train_path)[1]) == 1, \
+        "read_data returned a y without 1 column"
+
     # Read in pre-processed data
     X_train, y_train = read_data(train_path)
     data = pd.concat([X_train, y_train], axis=1)
 
     y_train = data["quality"]
     X_train = data.drop("quality", axis=1)
-   
+
     # Create models and hyperparameters
     models = {
         "Dummy": DummyRegressor(),

@@ -41,6 +41,28 @@ Our task here is to focus on what white wine features are important to get the p
 
 According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol level, the better the wine quality. Additionally, the smaller the chlorides and total sulphur dioxide the better the wine quality. Some variables seem do not influence wine quality on their own. When combining these variables, they might indeed influence wine quality.
 
+## Usage
+
+Download the data:
+
+python src/download_data.py --url=http://www3.dsi.uminho.pt/pcortez/wine/winequality.zip --path=../data/raw/
+
+Split into train and test sets:
+
+python src/split.py data/raw/winequality/winequality-white.csv data/processed
+
+Train models:
+
+python src/ml_models.py data/processed results/raw_results
+
+Perform EDA:
+
+python src/EDA.py data/processed/X_train.csv data/processed/y_train.csv results
+
+Evaluate the models:
+
+python src/analysis.py --r_path=results
+
 ## License
 
 The Quality white wine predicto materials here are licensed under MIT License, Copyright (c) 2021 Master of Data Science at the University of British Columbia. If re-using/re-mixing please provide attribution and link to this webpage.
