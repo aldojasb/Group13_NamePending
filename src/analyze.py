@@ -9,7 +9,7 @@ Options:
 --r_path=<arg1>      Path to write the results to
 
 Example:
-python analysis.py --r_path=results
+python analyze.py --r_path=results
 """
 
 
