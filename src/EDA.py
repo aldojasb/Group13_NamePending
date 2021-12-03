@@ -23,7 +23,7 @@ def main():
     x_path = opt['<path_to_x_train>']
     y_path = opt['<path_to_y_train>']
     save_path = opt['<loc_to_be_saved>']
-    print(save_path)
+    # print(save_path)
 
     X_train = pd.read_csv(x_path)
     y_train = pd.read_csv(y_path)
