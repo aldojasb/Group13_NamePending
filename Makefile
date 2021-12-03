@@ -25,11 +25,7 @@ doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md: resul
 	Rscript -e "rmarkdown::render('doc/Quality_white_wine_predictor.Rmd')"
 
 clean:
-	rm -rf data/raw
-	rm -f data/processed/X_test.csv
-	rm -f data/processed/X_train.csv
-	rm -f data/processed/y_test.csv
-	rm -f data/processed/y_train.csv
+	rm -rf data/*
 	rm -rf results/*
 	rm -f doc/Quality_white_wine_predictor.html
 	rm -f doc/Quality_white_wine_predictor.md
