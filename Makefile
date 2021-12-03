@@ -1,4 +1,4 @@
-all: doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md doc/Quality_white_wine_predictor.pdf
+all: doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md
 
 # Download the data
 data/raw/winequality/winequality-white.csv:
@@ -21,7 +21,7 @@ results/best_model.csv: results/raw_results
 	python src/analyze.py --r_path=results
 
 # Generate report
-doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md doc/Quality_white_wine_predictor.pdf: results/best_model.csv relationship_between_individual_features_and_the_quality_3.png Distribution_of_white_wine_quality.png relationship_between_individual_features_and_the_quality_1.png relationship_between_individual_features_and_the_quality_2.png
+doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md: results/best_model.csv relationship_between_individual_features_and_the_quality_3.png Distribution_of_white_wine_quality.png relationship_between_individual_features_and_the_quality_1.png relationship_between_individual_features_and_the_quality_2.png
 	Rscript -e "rmarkdown::render('doc/Quality_white_wine_predictor.Rmd')"
 
 clean:
@@ -33,4 +33,3 @@ clean:
 	rm -rf results/*
 	rm -f doc/Quality_white_wine_predictor.html
 	rm -f doc/Quality_white_wine_predictor.md
-	rm -f doc/Quality_white_wine_predictor.pdf
