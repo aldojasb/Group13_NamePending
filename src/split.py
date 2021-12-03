@@ -11,7 +11,7 @@ Example: python src/split.py data/raw/winequality/winequality-white.csv data/pro
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from docopt import docopt
-
+from pathlib import Path
 
 opt = docopt(__doc__)
 
@@ -37,6 +37,8 @@ def main():
 
     input_path = opt['<input_path>']
     output_location = opt['<output_location>']
+    output_path = Path(output_location)
+    output_path.mkdir(parents=True, exist_ok=True)
 
 
     train_df, test_df = split_test_data(input_path)
