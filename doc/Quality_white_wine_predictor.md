@@ -229,7 +229,7 @@ Table 1:
 
 In the context of our business question focusing on the prediction of
 white wine quality, it is reasonable that KNN gives us superior
-“predictions.”
+“predictions”.
 
 ## **Discussion**
 
