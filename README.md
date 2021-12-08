@@ -87,5 +87,3 @@ The Quality white wine predicto materials here are licensed under MIT License, C
   - research question
 - defensive programming
 - heatmap for features
-- docs in preprocess.py
-- delete environment.yaml

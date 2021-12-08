@@ -27,6 +27,7 @@ def main():
 
     alt.renderers.enable('mimetype')
 
+    # Wine quality distribution
     chart1 = alt.Chart(
         data, title="Distribution of white wine quality"
     ).mark_bar().encode(
@@ -45,6 +46,7 @@ def main():
         scale_factor=2.0
     )
 
+    # Relationship between features and target
     chart2 = alt.Chart(
         data, title="Relationship between features and target (1/3)"
     ).mark_boxplot(opacity=1, size=10).encode(
