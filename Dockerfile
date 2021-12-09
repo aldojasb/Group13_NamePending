@@ -3,7 +3,7 @@
 # Date: 12/07/2021
 
 # use Minimal Jupyter Notebook Stack from https://github.com/jupyter/docker-stacks  
-FROM jupyter/minimal-notebook
+FROM jupyter/minimal-notebook@sha256:f424aa7321d0dd5543ac86c3efa8ec583efd8c1771266ced1b3449487e0adb63
 
 USER root
 
@@ -64,3 +64,5 @@ WORKDIR "${HOME}"
 # Example usage:
 # docker build --tag v0.1.0 /$(pwd)
 # docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${PWD}":/home/jovyan/work v0.1.0
+
+# docker build --platform --tag v0.1.0 /$(pwd)
