@@ -1,6 +1,6 @@
 # Predicting the quality of white wine
 
-Authors: Aldo Saltao Barros, Nikita Shimberg, Yair Guterman, Son Chau
+Authors: Aldo Saltao Barros, Nikita Shymberg, Yair Guterman, Son Chau
 
 ## Goal
 
@@ -69,7 +69,7 @@ python src/EDA.py data/processed/X_train.csv data/processed/y_train.csv results
 Evaluate the models:
 
 ```bash
-python src/analysis.py --r_path=results
+python src/analyze.py --r_path=results
 ```
 
 ## License
@@ -79,8 +79,8 @@ The Quality white wine predicto materials here are licensed under MIT License, C
 ## TODO
 
 - report
-  - names
   - citations
+    - romer2007homogeneous???
   - proofread
   - selecting models
   - research question

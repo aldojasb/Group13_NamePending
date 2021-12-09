@@ -6,6 +6,7 @@ Options:
 <path_to_y_train>             path to y_train.csv
 <loc_to_be_saved>             path to where we want to save the images
 
+python src/EDA.py data/processed/X_train.csv data/processed/y_train.csv results
 """
 
 import altair as alt
@@ -106,6 +107,9 @@ def main():
     chart4.save(
         f'{save_path}/relationship_between_individual_features_and_the_quality_3.png',
         scale_factor=2.0)
+
+    # Heatmap
+    q = data.corr().stack().reset_index()  # TODO
 
 
 if __name__ == "__main__":
