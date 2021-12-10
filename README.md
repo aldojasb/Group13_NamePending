@@ -12,19 +12,19 @@ According to experts, wine is differentiated according to its smell, flavour, an
 
 ## Dataset description
 
-The wine quality dataset is publicly available on the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine+Quality). The dataset has two files, red wine and white wine variants of the Portuguese “Vinho Verde” wine. It contains a large collection of datasets that have been used for the machine learning community. The red wine dataset contains 1599 instances and the white wine dataset contains 4898 instances. Both files contain 11 input features and 1 output feature. Input features are based on the physicochemical tests and output variable based on sensory data is scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good).
+The wine quality dataset is publicly available on the UCI machine learning repository (<https://archive.ics.uci.edu/ml/datasets/Wine+Quality>). The dataset has two files, red wine and white wine variants of the Portuguese “Vinho Verde” wine. It contains a large collection of datasets that have been used for the machine learning community. The red wine dataset contains 1599 instances and the white wine dataset contains 4898 instances. Both files contain 11 input features and 1 output feature. Input features are based on the physicochemical tests and output variable based on sensory data is scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good).
 
 Input variables:
 
-1. fixed acidity
-2. volatile acidity
-3. citric acid
-4. residual sugar
-5. chlorides
-6. free sulfur dioxide
-7. total sulfur dioxide
-8. density
-9. pH
+1.  fixed acidity
+2.  volatile acidity
+3.  citric acid
+4.  residual sugar
+5.  chlorides
+6.  free sulfur dioxide
+7.  total sulfur dioxide
+8.  density
+9.  pH
 10. sulphates
 11. alcohol
 
@@ -46,40 +46,44 @@ Running with Docker:
 
 Make sure to install docker then run the following commands:
 
-```bash
+``` bash
 docker build --tag v0.1.0 /$(pwd)
 docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${PWD}":/home/jovyan/work v0.1.0 make -C /home/jovyan/work all
 ```
 
 Download the data:
 
-```bash
+``` bash
 python src/download_data.py --url=http://www3.dsi.uminho.pt/pcortez/wine/winequality.zip --path=data/raw/
 ```
 
 Split into train and test sets:
 
-```bash
+``` bash
 python src/split.py data/raw/winequality/winequality-white.csv data/processed
 ```
 
 Train models:
 
-```bash
+``` bash
 python src/ml_models.py data/processed results/raw_results
 ```
 
 Perform EDA:
 
-```bash
+``` bash
 python src/EDA.py data/processed/X_train.csv data/processed/y_train.csv results
 ```
 
 Evaluate the models:
 
-```bash
+``` bash
 python src/analyze.py --r_path=results
 ```
+
+## Dependency diagram
+
+![](Makefile.png)
 
 ## License
 
