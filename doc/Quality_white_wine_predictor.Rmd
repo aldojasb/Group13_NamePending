@@ -101,6 +101,14 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ```
 
+We also explored the correlations between the features. The heatmap below shows that some features are indeed correlated. In particular, we see a strong negative correlation between density and alcohol content. We also see a very positive correlation between density and residual sugar.
+
+```{r}
+knitr::include_graphics("../results/heatmap.png")
+
+
+```
+
 ### Cross Validation and Hyperparameter tuning
 
 In order to find the best model and perform hyperparameter optimization, we will use the cross validation approach to support our decision. Cross validation partitions the training set into 5 folds, trains the model on 4 of them, and evaluates the model on the reserved validation set. This process is repeated 5 times such that each fold acts as the validation fold once. Then, we will choose the model and hyperparameters with the best $R^2$ score.

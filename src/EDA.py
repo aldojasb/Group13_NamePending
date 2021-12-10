@@ -112,10 +112,9 @@ def main():
     corr_data = data.corr().stack().reset_index()
     corr_data["correlation"] = corr_data[0]
     corr_data = corr_data.drop(0, axis="columns")
-    chart5 = alt.Chart(corr_data).mark_rect().encode(
-        x='level_0',
-        y='level_1',
-        tooltip='correlation',
+    chart5 = alt.Chart(corr_data, title="Correlation between features").mark_rect().encode(
+        x=alt.X('level_0', title=None),
+        y=alt.Y('level_1', title=None),
         color=alt.Color('correlation', scale=alt.Scale(domain=(-1, 1), scheme='purpleorange')))
 
     chart5.save(

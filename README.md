@@ -87,4 +87,7 @@ The Quality white wine predicto materials here are licensed under MIT License, C
 - Respond to comments: link the coment and the commit
   - Margots about tuning
   - Research question
+  - heatmap
+  - typos
+  - 
 - Fix input variables?
