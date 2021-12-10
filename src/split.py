@@ -1,5 +1,5 @@
 """This script splits the raw data into 4 csv's.
-Usage: split.py <input_path> <output_location> 
+Usage: split.py <input_path> <output_location>
 
 Options:
 <input_path>         input path
@@ -7,13 +7,15 @@ Options:
 
 Example: python src/split.py data/raw/winequality/winequality-white.csv data/processed
 
-""" 
+"""
+
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from docopt import docopt
 from pathlib import Path
 
 opt = docopt(__doc__)
+
 
 def split_test_data(path: str):
     """
@@ -33,6 +35,7 @@ def split_test_data(path: str):
     train_df, test_df = train_test_split(data, random_state=522, test_size=0.2)
     return train_df, test_df
 
+
 def main():
 
     input_path = opt['<input_path>']
@@ -50,8 +53,7 @@ def main():
     y_train.to_csv(f"{output_location}/y_train.csv", index=False)
     X_test.to_csv(f"{output_location}/X_test.csv", index=False)
     y_test.to_csv(f"{output_location}/y_test.csv", index=False)
-       
+
+
 if __name__ == "__main__":
     main()
-
-

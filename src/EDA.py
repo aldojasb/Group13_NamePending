@@ -6,19 +6,16 @@ Options:
 <path_to_y_train>             path to y_train.csv
 <loc_to_be_saved>             path to where we want to save the images
 
+python src/EDA.py data/processed/X_train.csv data/processed/y_train.csv results
 """
-
-
 
 import altair as alt
 from docopt import docopt
 import pandas as pd
 
+
 def main():
-
-    
     opt = docopt(__doc__)
-
 
     x_path = opt['<path_to_x_train>']
     y_path = opt['<path_to_y_train>']
@@ -31,22 +28,32 @@ def main():
 
     alt.renderers.enable('mimetype')
 
-    chart1 = alt.Chart(data, title="Distribution of white wine quality").mark_bar().encode(
+    # Wine quality distribution
+    chart1 = alt.Chart(
+        data, title="Distribution of white wine quality"
+    ).mark_bar().encode(
         x=alt.X("quality", bin=alt.Bin(maxbins=12), title="Wine quality (/10)"),
         y="count()"
     ).properties(
         width=500,
         height=500
     ).configure_axis(
-        labelFontSize=15, titleFontSize=20).configure_title(
-            fontSize=20,)
+        labelFontSize=15,
+        titleFontSize=20
+    ).configure_title(fontSize=20)
 
     chart1.save(
-        f'{save_path}/Distribution_of_white_wine_quality.png', scale_factor=2.0)
+        f'{save_path}/Distribution_of_white_wine_quality.png',
+        scale_factor=2.0
+    )
 
-
-    chart2 = alt.Chart(data).mark_boxplot(opacity=1, size=10).encode(
-        y=alt.Y(alt.repeat(), type="quantitative", scale=alt.Scale(zero=False)),
+    # Relationship between features and target
+    chart2 = alt.Chart(
+        data, title="Relationship between features and target (1/3)"
+    ).mark_boxplot(opacity=1, size=10).encode(
+        y=alt.Y(alt.repeat(),
+                type="quantitative",
+                scale=alt.Scale(zero=False)),
         x=alt.X("quality", scale=alt.Scale(zero=False), ),
         color=alt.Color("quality", legend=None)
     ).properties(
@@ -58,10 +65,15 @@ def main():
         labelFontSize=15, titleFontSize=20)
 
     chart2.save(
-        f'{save_path}/relationship_between_individual_features_and_the_quality_1.png', scale_factor=2.0)
+        f'{save_path}/relationship_between_individual_features_and_the_quality_1.png',
+        scale_factor=2.0)
 
-    chart3 = alt.Chart(data).mark_boxplot(opacity=1, size=10).encode(
-        y=alt.Y(alt.repeat(), type="quantitative", scale=alt.Scale(zero=False)),
+    chart3 = alt.Chart(
+        data, title="Relationship between features and target (2/3)"
+    ).mark_boxplot(opacity=1, size=10).encode(
+        y=alt.Y(alt.repeat(),
+                type="quantitative",
+                scale=alt.Scale(zero=False)),
         x=alt.X("quality", scale=alt.Scale(zero=False)),
         color=alt.Color("quality", legend=None)
     ).properties(
@@ -73,10 +85,15 @@ def main():
         labelFontSize=15, titleFontSize=20)
 
     chart3.save(
-        f'{save_path}/relationship_between_individual_features_and_the_quality_2.png', scale_factor=2.0)
+        f'{save_path}/relationship_between_individual_features_and_the_quality_2.png',
+        scale_factor=2.0)
 
-    chart4 = alt.Chart(data).mark_boxplot(opacity=1, size=10).encode(
-        y=alt.Y(alt.repeat(), type="quantitative", scale=alt.Scale(zero=False)),
+    chart4 = alt.Chart(
+        data, title="Relationship between features and target (3/3)"
+    ).mark_boxplot(opacity=1, size=10).encode(
+        y=alt.Y(alt.repeat(),
+                type="quantitative",
+                scale=alt.Scale(zero=False)),
         x=alt.X("quality", scale=alt.Scale(zero=False)),
         color=alt.Color("quality", legend=None)
     ).properties(
@@ -88,6 +105,21 @@ def main():
         labelFontSize=15, titleFontSize=20)
 
     chart4.save(
-        f'{save_path}/relationship_between_individual_features_and_the_quality_3.png', scale_factor=2.0)
+        f'{save_path}/relationship_between_individual_features_and_the_quality_3.png',
+        scale_factor=2.0)
+    
+    # Heatmap
+    corr_data = data.corr().stack().reset_index()
+    corr_data["correlation"] = corr_data[0]
+    corr_data = corr_data.drop(0, axis="columns")
+    chart5 = alt.Chart(corr_data, title="Correlation between features").mark_rect().encode(
+        x=alt.X('level_0', title=None),
+        y=alt.Y('level_1', title=None),
+        color=alt.Color('correlation', scale=alt.Scale(domain=(-1, 1), scheme='purpleorange')))
+
+    chart5.save(
+        f'{save_path}/heatmap.png',
+        scale_factor=2.0)
+
 if __name__ == "__main__":
     main()
