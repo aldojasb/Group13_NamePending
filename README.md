@@ -79,10 +79,11 @@ The Quality white wine predicto materials here are licensed under MIT License, C
 ## TODO
 
 - report
-  - citations
-    - romer2007homogeneous???
   - proofread
   - selecting models
   - research question
 - defensive programming
 - heatmap for features
+- Respond to comments: link the coment and the commit
+  - Margots about tuning
+- Fix input variables?

@@ -31,14 +31,14 @@ According to experts, wine is differentiated according to its smell, flavour, an
 
 # Data
 
-The wine quality dataset is publicly available on the UCI machine learning repository (check the links below). The dataset has two files, red wine and white wine variants of the Portuguese "Vinho Verde" wine. It contains a large collection of datasets that have been used for the machine learning community. The red wine dataset contains 1599 instances and the white wine dataset contains 4898 instances. Both files contain 11 input features and 1 output feature. Input features are based on the physicochemical tests and output variable based on sensory data is scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
+The wine quality dataset is publicly available on the UCI machine learning repository (links below). The dataset has two files, red wine and white wine variants of the Portuguese "Vinho Verde" wine. These datasets have been widely used by the machine learning community. The red wine dataset contains 1599 instances and the white wine dataset contains 4898 instances. We chose to focus solely on white wine because the white wine dataset has so many more records. Both files contain 11 input features and 1 output feature. Input features are based on the physicochemical tests and output variable based on sensory data is scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
 
 -   [UCI repository](https://archive.ics.uci.edu/ml/datasets/Wine+Quality)
 -   [White wine database](http://open.canada.ca/data/en/dataset/b374f60b-9580-44dc-83f6-c0a850c15f30)
 
 Input variables:
 
-1.  **Alcohol**: the amount of alcohol in wine
+1.  **Alcohol**: the alcohol percentage of the wine
 2.  **Volatile acidity**: are high acetic acid in wine which leads to an unpleasant vinegar taste
 3.  **Sulphates**: a wine additive that contributes to SO2 levels and acts as an antimicrobial and antioxidant
 4.  **Citric Acid**: acts as a preservative to increase acidity (small quantities add freshness and flavor to wines)
@@ -52,9 +52,9 @@ Input variables:
 
 # Methods
 
-**How to analyze the data** Our task here is to focus on what white wine features are important to get the promising result. For the purpose of regression model and evaluation of the relevant features, we are using the following algorithms to perform this task:
+For this task, we used python's scikit learn library [@scikit-learn] to train the following models:
 
-1.  **DummyRegressor**: is one that takes only the value 0 or 1 to indicate the absence or presence of some categorical effect that may be expected to shift the outcome.
+1.  **DummyRegressor**: this is a baseline model that merely predicts the mean quality for each example without looking at any of the features. This should be the worst performing model.
 2.  **Ridge**: is a model tuning method that is used to analyse any data that suffers from multicollinearity. This method performs L2 regularization. When the issue of multicollinearity occurs, least-squares are unbiased, and variances are large, this results in predicted values to be far away from the actual values.
 3.  **Random Forest**: is an ensemble learning method for classification, regression and other tasks that operates by constructing a multitude of decision trees at training time. For classification tasks, the output of the random forest is the class selected by most trees. For regression tasks, the mean or average prediction of the individual trees is returned
 4.  **KNN**: is an approach to data classification that estimates how likely a data point is to be a member of one group or the other depending on what group the data points nearest to it are in.The k-nearest-neighbor is an example of a "lazy learner" algorithm, meaning that it does not build a model using the training set until a query of the data set is performed.
@@ -65,13 +65,11 @@ Input variables:
 
 ### Data Cleaning and Preprocessing
 
-The first step clean and prepare the data for analysis. First, It is necessary to checked the data types focusing on numerical and categorical to simplify the correlation's computation and visualization. Second, it's necessary to identify any missing values existing in our data set. Last, it's relevant to research each column/feature's statistical summary to detect any problem like outliers and abnormal distributions.
-
-After, data preprocessing is crucial in any data mining process as they directly impact success rate of the project. This reduces complexity of the data under analysis as data in real world is unclean. we split the dataset in two parts, one for training and one for testing. The model building and tuning is done in the training set, and then we use the test set to predict new values and evaluate the results.
+The first step is to clean and prepare the data for analysis. Fortunately, this dataset is in great condition with no missing values and only numerical columns. The dataset was split up into two subsets: the training set and the test set with 80% of the data going into the training set and the rest into the test set. The training set will be used to train the models using cross-validation. The test set will only be used once to report the final scores for the best model.
 
 ### EDA first conclusions
 
-According to our first EDA, we do not have a balanced database, our wines are concentrated around quality 5 and 7.5 (around 80% of data points). The image below can clear shows up this first finding:
+According to our first EDA, we do not have a balanced dataset. Around 80% of our wines are concentrated between quality 5 and 7.5. The image below shows this first finding:
 
 ```{r}
 knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
@@ -79,7 +77,7 @@ knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
 
 ```
 
-Besides, we have a couple of signs about some variables. For instance, it appears that the higher the alcohol, Sulphates and ph levels the better the wine quality. We can check these information on the chart below:
+We also had a look at the distribution between individual features and the quality to see if there are any obvious features that clearly contribute to the quality. For instance, it appears that it _might_ be the case that the higher the alcohol, sulphates, and ph levels the better the wine quality. We can check these information on the chart below:
 
 ```{r}
 knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_3.PNG")
@@ -87,7 +85,7 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ```
 
-Following the same idea, we there are some evidences that the smaller the chlorides, Free Sulfur Dioxide, total sulphur dioxide and density levels, the better the wine quality. The chart below ilustrates these findings:
+Following the same idea, there is some evidence that the smaller the chlorides, Free Sulfur Dioxide, total sulphur dioxide and density levels, the better the wine quality. The chart below ilustrates these findings:
 
 ```{r}
 knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_2.PNG")
@@ -95,7 +93,7 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ```
 
-For some variables like Fixed acidity, Volatile acidity, Citric Acid and Residual sugar seem do not influence wine quality on their own. However, we need to take care with this statement since when they are combining with other variables above, they might indeed influence wine quality. The chart below can show up these findings:
+For some variables like fixed acidity, volatile acidity, citric acid and residual sugar seem to not influence wine quality on their own. However, we need to be careful with this statement since when these variables are combined with others, they might indeed influence wine quality. The chart below can shows these findings:
 
 ```{r}
 knitr::include_graphics("../results/relationship_between_individual_features_and_the_quality_1.PNG")
@@ -103,17 +101,27 @@ knitr::include_graphics("../results/relationship_between_individual_features_and
 
 ```
 
-### Cross Validation
+### Cross Validation and Hyperparameter tuning
 
-In order to evaluate the best model, we will use the cross validation approach to support our decision. The original dataset is partitioned in the training set used to train the model, and the test set used to predict the values with the trained model. Cross validation partitions the training set in the same way and performs the training and prediction several times. Then, the result with the best $R^2$ will be selected.
+In order to find the best model and perform hyperparameter optimization, we will use the cross validation approach to support our decision. Cross validation partitions the training set into 5 folds, trains the model on 4 of them, and evaluates the model on the reserved validation set. This process is repeated 5 times such that each fold acts as the validation fold once. Then, we will choose the model and hyperparameters with the best $R^2$ score.
 
-### Hyperparameter tuning
+The following hyperparameters were optimized:
 
-In this analysis, we also performed the Hyperparameter optimization since the same kind of machine learning model can require different constraints, weights or learning rates to generalize different data patterns. Hyperparameter optimization finds a tuple of hyperparameters that yields an optimal model which minimizes a predefined loss function on given independent data.
+DummyRegressor's `strategy` was set to mean or median
+
+Ridge's `alpha` for L2 regularization
+
+Random Forest's `n_estimators` to set the number of trees. The `criterion` to set the criterion to split the nodes. The `max_depth` of the trees in the forest. Lastly, whether to use bootstrapping or not.
+
+KNN's `n_neighbors` to determine how many neighbours get to vote on the new datapoints score. The `weights` to determine whether closer points get a bigger vote than further away points.
+
+Bayes's `alpha_1`, `alpha_2`, `lambda_1`, and `lambda_2`.
+
+SVM's `kernel` type. The `degree` and the `gamma` and `C` complexity hyperparameters.
 
 ### Packages
 
-We are used the following packages for our analysis sklearn [@scikit-learn], python [@Python], pandas [@reback2020pandas], knitr [@knitr], numpy [@2020NumPy-Array], scipy [@2020SciPy-NMeth], [@romer2007homogeneous], altair [@2018-altair], and joblib [@Joblib]
+We are used the following packages for our analysis: sklearn [@scikit-learn], python [@Python], pandas [@reback2020pandas], knitr [@knitr], numpy [@2020NumPy-Array], scipy [@2020SciPy-NMeth], altair [@2018-altair], and joblib [@Joblib]
 
 # Results & Discussion
 
