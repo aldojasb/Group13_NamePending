@@ -42,6 +42,15 @@ According to our first EDA, we do not have a balanced database, our wines are co
 
 ## Usage
 
+Running with Docker:
+
+Make sure to install docker then run the following commands:
+
+```bash
+docker build --tag v0.1.0 /$(pwd)
+docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${PWD}":/home/jovyan/work v0.1.0 make -C /home/jovyan/work all
+```
+
 Download the data:
 
 ```bash
@@ -78,16 +87,14 @@ The Quality white wine predicto materials here are licensed under MIT License, C
 
 ## TODO
 
-- report
-  - proofread
-  - selecting models
-  - research question
 - defensive programming
-- heatmap for features
 - Respond to comments: link the coment and the commit
   - Margots about tuning
   - Research question
   - heatmap
-  - typos
-  - 
-- Fix input variables?
+  - typos and grammar errors
+  - Authors
+  - importance
+  - dependencies in readme
+  - Captions
+  - removed pre-process margot and nobbynguyen

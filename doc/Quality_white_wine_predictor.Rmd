@@ -71,8 +71,9 @@ The first step is to clean and prepare the data for analysis. Fortunately, this 
 
 According to our first EDA, we do not have a balanced dataset. Around 80% of our wines are concentrated between quality 5 and 7.5. The image below shows this first finding:
 
+
 ```{r}
-knitr::include_graphics("../results/Distribution_of_white_wine_quality.PNG")
+knitr::include_graphics("../results/Distribution_of_white_wine_quality.png")
 
 
 ```
@@ -129,7 +130,7 @@ SVM's `kernel` type. The `degree` and the `gamma` and `C` complexity hyperparame
 
 ### Packages
 
-We are used the following packages for our analysis: sklearn [@scikit-learn], python [@Python], pandas [@reback2020pandas], knitr [@knitr], numpy [@2020NumPy-Array], scipy [@2020SciPy-NMeth], altair [@2018-altair], and joblib [@Joblib]
+We used the following packages for our analysis: sklearn [@scikit-learn], python [@Python], pandas [@reback2020pandas], knitr [@knitr], numpy [@2020NumPy-Array], scipy [@2020SciPy-NMeth], altair [@2018-altair], and joblib [@Joblib]
 
 # Results & Discussion
 
