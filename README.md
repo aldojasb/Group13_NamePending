@@ -34,7 +34,7 @@ Output variable:
 
 ## How to analyze the data
 
-Our task here is to focus on what white wine features are important to get the promising result. For the purpose of classification model and evaluation of the relevant features, we are using algorithms such as 1) Decision Tree, 2) SVC, 3) K-NN, 4) Navie Bayes, and 5) Logistic Regression. We will test them and compare what is the best model and the best parameters to use in this prediction.
+Our task here is to focus on what white wine features are important to get the most promising result. For the purpose of classification model and evaluation of the relevant features, we are using algorithms such as 1) Decision Tree, 2) SVC, 3) K-NN, 4) Navie Bayes, and 5) Logistic Regression. We will test them and compare what is the best model and the best parameters to use in this prediction.
 
 ## EDA first conclusions
 
