@@ -108,11 +108,19 @@ def main():
         f'{save_path}/relationship_between_individual_features_and_the_quality_3.png',
         scale_factor=2.0)
     
-    # TODO: vstack the charts and save?
-
     # Heatmap
-    q = data.corr().stack().reset_index()  # TODO
+    corr_data = data.corr().stack().reset_index()
+    corr_data["correlation"] = corr_data[0]
+    corr_data = corr_data.drop(0, axis="columns")
+    chart5 = alt.Chart(corr_data).mark_rect().encode(
+        x='level_0',
+        y='level_1',
+        tooltip='correlation',
+        color=alt.Color('correlation', scale=alt.Scale(domain=(-1, 1), scheme='purpleorange')))
 
+    chart5.save(
+        f'{save_path}/heatmap.png',
+        scale_factor=2.0)
 
 if __name__ == "__main__":
     main()

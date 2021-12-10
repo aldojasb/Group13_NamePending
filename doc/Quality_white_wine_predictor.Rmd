@@ -19,9 +19,9 @@ Authors: Nikita Shymberg, Aldo Saltao Barros, Yair Guterman, Son Chau
 
 This report trains a machine learning model to predict the quality of white wine based on physicochemical properties. Our models were trained on a white wine database from "vinho verde" containing 11 features and a target "quality". Quality is a subjective measure, so the values in the dataset are the average grade of three experts. The quality of wine is a numeric property, so we trained regression models to predict this value ranging from 0 (very poor quality) to 10 (very high quality).
 
-We trained several machine learning models and found that a KNN model with hyperparameters [TODO: __] performed best during cross validation. This model achieved a score of [TODO: __] on the test set.
+We trained several machine learning models and found that a KNN model with hyperparameters `"distance"` for `weights` and 25 neighbours performed best during cross validation. This model achieved a score of 0.54 on the test set.
 
-# Goal
+# Goal and Research Question
 
 This project aims to train a model to predict wine quality given measurable wine features.
 
@@ -127,7 +127,7 @@ We are used the following packages for our analysis: sklearn [@scikit-learn], py
 
 ## **Evaluation**
 
-After running the models, we used the test-score metrics to evaluate our model prediction performance. As we can assess into the table below, model KNN have a $R^2$ = 0.54 which is the best value in comparison with the other models
+After performing hyperparameter optimization, we found that the best performing model was the KNN using the `distance` value for the `weights` hyperparameter and considering the 25 nearest neighbours. As we can assess into the table below, the KNN has a test $R^2$ = 0.54 which is the best value in comparison with the other models
 
 ```{r max horse table, message=FALSE, warning=FALSE}
 test_01 <- read_csv("../results/best_model.csv")
@@ -136,11 +136,11 @@ kable(test_01,
       caption = "Table 1:")
 ```
 
-In the context of our business question focusing on the prediction of white wine quality, it is reasonable that KNN gives us superior "predictions".
+In the context of our business question focusing on the prediction of white wine quality, it is seems reasonable that KNN gives us superior "predictions". We hypothesize that this is because of the fact that the majority of wines have scores of 5-7, so most datapoints are close to those scores.
 
 ## **Discussion**
 
-By analyzing the physicochemical tests samples data of white wines from the north of Portugal, we were able to create a model that can help industry producers, distributors, and sellers predict the quality of white wine products and have a better understanding of each critical and up-to-date features. the KNN Model performed better than others.
+By analyzing the physicochemical tests samples data of white wines from the north of Portugal, we were able to create a model that can help industry producers, distributors, and sellers to predict the quality of white wine products and have a better understanding of each critical feature. The KNN model performed better than others.
 
 It is relevant to mention that there are some limitations for this analysis. First, the main problem came from the fact that our data set was unbalanced. A majority of the quality values were around 5 and 6, which made no significant contribution to finding an optimal model. These values might made it harder to identify each factor's different influence on a "high" or "low" quality of the wine, which was the main focus of this analysis. In order to improve our predictive model, we need more balanced data.
 
