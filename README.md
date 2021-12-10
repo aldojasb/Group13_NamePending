@@ -4,7 +4,7 @@ Authors: Aldo Saltao Barros, Nikita Shymberg, Yair Guterman, Son Chau
 
 ## Goal
 
-This project aims to determine a model to predict wine quality given measurable wine features.
+This project aims to determine a good model to predict wine quality given measurable wine features.
 
 ## Introduction
 
