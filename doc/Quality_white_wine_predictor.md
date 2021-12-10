@@ -2,7 +2,7 @@ Quality white wine predictor
 ================
 
 -   [Summary](#summary)
--   [Goal](#goal)
+-   [Goal and Research Question](#goal-and-research-question)
 -   [Introduction](#introduction)
 -   [Data](#data)
 -   [Methods](#methods)
@@ -10,65 +10,62 @@ Quality white wine predictor
     -   [Data Cleaning and
         Preprocessing](#data-cleaning-and-preprocessing)
     -   [EDA first conclusions](#eda-first-conclusions)
-    -   [Cross Validation](#cross-validation)
-    -   [Hyperparameter tuning](#hyperparameter-tuning)
+    -   [Cross Validation and Hyperparameter
+        tuning](#cross-validation-and-hyperparameter-tuning)
     -   [Packages](#packages)
 -   [Results & Discussion](#results--discussion)
     -   [**Evaluation**](#evaluation)
     -   [**Discussion**](#discussion)
 -   [References](#references)
 
+Authors: Nikita Shymberg, Aldo Saltao Barros, Yair Guterman, Son Chau
+
 # Summary
 
-This report uses the white wine database from “vinho verde” to predict
-the quality based on physicochemical properties. Quality is a subjective
-measure, given by the average grade of three experts.
+This report trains a machine learning model to predict the quality of
+white wine based on physicochemical properties. Our models were trained
+on a white wine database from “vinho verde” containing 11 features and a
+target “quality”. Quality is a subjective measure, so the values in the
+dataset are the average grade of three experts. The quality of wine is a
+numeric property, so we trained regression models to predict this value
+ranging from 0 (very poor quality) to 10 (very high quality).
 
-Before starting the predictions, the report performs an exploratory data
-analysis (EDA) to look for features that may provide good prediction
-results, and also makes an short explanation about the metrics used in
-the models. In data preparation, the database are downloaded and
-processed in python. In this phase, the training and testing sets are
-created and they will be used during the model building.
+We trained several machine learning models and found that a KNN model
+with hyperparameters `"distance"` for `weights` and 25 neighbours
+performed best during cross validation. This model achieved a score of
+0.54 on the test set.
 
-There’s a brief explanation of the models used in this report. Other
-important machine learning concepts, such as ensemble and cross
-validation, are also discussed.
+# Goal and Research Question
 
-The results section presents the best model for predicting quality and
-discuss why it was chosen for this purpose.
-
-# Goal
-
-This project aims to determine a model to predict wine quality given
+This project aims to train a model to predict wine quality given
 measurable wine features.
 
 # Introduction
 
 According to experts, wine is differentiated according to its smell,
-flavour, and colour, but most people are not wine experts to say that
-wine is good or bad. The quality of the wine is determined by many
-variables including, but not limited to, the ones mentioned previously.
-The quality of a wine is important for the consumers as well as the wine
-industry. For instance, industry players are using product quality
-certifications to promote their products. However, this is a
-time-consuming process and requires the assessment given by human
-experts, which makes this process very expensive. Nowadays, machine
-learning models are important tools to replace human tasks and, in this
-case, a good wine quality prediction can be very useful in the
-certification phase. For example, an automatic predictive system can be
-integrated into a decision support system, helping the speed and quality
-of the performance.
+flavour, and colour. Most people are not wine experts, so they cannot
+effectively determine that some wine is good or bad. The quality of a
+wine is important for consumers as well as the wine industry and it is
+determined by a very wide range of factors. For instance, industry
+players use product quality certifications to promote their products.
+Unfortunately, certification is a time-consuming process and requires
+assessment from human experts which makes it very expensive. Nowadays,
+it is possible to replace human tasks with machine learning models. In
+this case, a good wine quality predictor can be very useful in the
+certification process. For example, an automatic predictive system can
+be integrated into a decision support system, facilitating quality
+certification.
 
 # Data
 
 The wine quality dataset is publicly available on the UCI machine
-learning repository (check the links below). The dataset has two files,
-red wine and white wine variants of the Portuguese “Vinho Verde” wine.
-It contains a large collection of datasets that have been used for the
-machine learning community. The red wine dataset contains 1599 instances
-and the white wine dataset contains 4898 instances. Both files contain
-11 input features and 1 output feature. Input features are based on the
+learning repository (links below). The dataset has two files, red wine
+and white wine variants of the Portuguese “Vinho Verde” wine. These
+datasets have been widely used by the machine learning community. The
+red wine dataset contains 1599 instances and the white wine dataset
+contains 4898 instances. We chose to focus solely on white wine because
+the white wine dataset has so many more records. Both files contain 11
+input features and 1 output feature. Input features are based on the
 physicochemical tests and output variable based on sensory data is
 scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
 
@@ -79,7 +76,7 @@ scaled in 11 quality classes from 0 to 10 (0-very bad to 10-very good)
 
 Input variables:
 
-1.  **Alcohol**: the amount of alcohol in wine
+1.  **Alcohol**: the alcohol percentage of the wine
 2.  **Volatile acidity**: are high acetic acid in wine which leads to an
     unpleasant vinegar taste
 3.  **Sulphates**: a wine additive that contributes to SO2 levels and
@@ -96,18 +93,16 @@ Input variables:
     oxidation of wine
 11. **Residual sugar**: is the amount of sugar remaining after
     fermentation stops. The key is to have a perfect balance between —
-    sweetness and sourness (wines > 45g/ltrs are sweet)
+    sweetness and sourness (wines \> 45g/ltrs are sweet)
 
 # Methods
 
-**How to analyze the data** Our task here is to focus on what white wine
-features are important to get the promising result. For the purpose of
-regression model and evaluation of the relevant features, we are using
-the following algorithms to perform this task:
+For this task, we used python’s scikit learn library (Pedregosa et al.
+2011) to train the following models:
 
-1.  **DummyRegressor**: is one that takes only the value 0 or 1 to
-    indicate the absence or presence of some categorical effect that may
-    be expected to shift the outcome.
+1.  **DummyRegressor**: this is a baseline model that merely predicts
+    the mean quality for each example without looking at any of the
+    features. This should be the worst performing model.
 2.  **Ridge**: is a model tuning method that is used to analyse any data
     that suffers from multicollinearity. This method performs L2
     regularization. When the issue of multicollinearity occurs,
@@ -140,86 +135,99 @@ the following algorithms to perform this task:
 
 ### Data Cleaning and Preprocessing
 
-The first step clean and prepare the data for analysis. First, It is
-necessary to checked the data types focusing on numerical and
-categorical to simplify the correlation’s computation and visualization.
-Second, it’s necessary to identify any missing values existing in our
-data set. Last, it’s relevant to research each column/feature’s
-statistical summary to detect any problem like outliers and abnormal
-distributions.
-
-After, data preprocessing is crucial in any data mining process as they
-directly impact success rate of the project. This reduces complexity of
-the data under analysis as data in real world is unclean. we split the
-dataset in two parts, one for training and one for testing. The model
-building and tuning is done in the training set, and then we use the
-test set to predict new values and evaluate the results.
+The first step is to clean and prepare the data for analysis.
+Fortunately, this dataset is in great condition with no missing values
+and only numerical columns. The dataset was split up into two subsets:
+the training set and the test set with 80% of the data going into the
+training set and the rest into the test set. The training set will be
+used to train the models using cross-validation. The test set will only
+be used once to report the final scores for the best model.
 
 ### EDA first conclusions
 
-According to our first EDA, we do not have a balanced database, our
-wines are concentrated around quality 5 and 7.5 (around 80% of data
-points). The image below can clear shows up this first finding:
+According to our first EDA, we do not have a balanced dataset. Around
+80% of our wines are concentrated between quality 5 and 7.5. The image
+below shows this first finding:
 
-![](../results/Distribution_of_white_wine_quality.PNG)<!-- -->
+![](../results/Distribution_of_white_wine_quality.png)<!-- -->
 
-Besides, we have a couple of signs about some variables. For instance,
-it appears that the higher the alcohol, Sulphates and ph levels the
+We also had a look at the distribution between individual features and
+the quality to see if there are any obvious features that clearly
+contribute to the quality. For instance, it appears that it *might* be
+the case that the higher the alcohol, sulphates, and ph levels the
 better the wine quality. We can check these information on the chart
 below:
 
-![](../results/relationship_between_individual_features_and_the_quality_3.PNG)<!-- -->
+![](../results/relationship_between_individual_features_and_the_quality_3.png)<!-- -->
 
-Following the same idea, we there are some evidences that the smaller
-the chlorides, Free Sulfur Dioxide, total sulphur dioxide and density
+Following the same idea, there is some evidence that the smaller the
+chlorides, Free Sulfur Dioxide, total sulphur dioxide and density
 levels, the better the wine quality. The chart below ilustrates these
 findings:
 
-![](../results/relationship_between_individual_features_and_the_quality_2.PNG)<!-- -->
+![](../results/relationship_between_individual_features_and_the_quality_2.png)<!-- -->
 
-For some variables like Fixed acidity, Volatile acidity, Citric Acid and
-Residual sugar seem do not influence wine quality on their own. However,
-we need to take care with this statement since when they are combining
-with other variables above, they might indeed influence wine quality.
-The chart below can show up these findings:
+For some variables like fixed acidity, volatile acidity, citric acid and
+residual sugar seem to not influence wine quality on their own. However,
+we need to be careful with this statement since when these variables are
+combined with others, they might indeed influence wine quality. The
+chart below can shows these findings:
 
-![](../results/relationship_between_individual_features_and_the_quality_1.PNG)<!-- -->
+![](../results/relationship_between_individual_features_and_the_quality_1.png)<!-- -->
 
-### Cross Validation
+We also explored the correlations between the features. The heatmap
+below shows that some features are indeed correlated. In particular, we
+see a strong negative correlation between density and alcohol content.
+We also see a very positive correlation between density and residual
+sugar.
 
-In order to evaluate the best model, we will use the cross validation
-approach to support our decision. The original dataset is partitioned in
-the training set used to train the model, and the test set used to
-predict the values with the trained model. Cross validation partitions
-the training set in the same way and performs the training and
-prediction several times. Then, the result with the best *R*<sup>2</sup>
-will be selected.
+![](../results/heatmap.png)<!-- -->
 
-### Hyperparameter tuning
+### Cross Validation and Hyperparameter tuning
 
-In this analysis, we also performed the Hyperparameter optimization
-since the same kind of machine learning model can require different
-constraints, weights or learning rates to generalize different data
-patterns. Hyperparameter optimization finds a tuple of hyperparameters
-that yields an optimal model which minimizes a predefined loss function
-on given independent data.
+In order to find the best model and perform hyperparameter optimization,
+we will use the cross validation approach to support our decision. Cross
+validation partitions the training set into 5 folds, trains the model on
+4 of them, and evaluates the model on the reserved validation set. This
+process is repeated 5 times such that each fold acts as the validation
+fold once. Then, we will choose the model and hyperparameters with the
+best *R*<sup>2</sup> score.
+
+The following hyperparameters were optimized:
+
+DummyRegressor’s `strategy` was set to mean or median
+
+Ridge’s `alpha` for L2 regularization
+
+Random Forest’s `n_estimators` to set the number of trees. The
+`criterion` to set the criterion to split the nodes. The `max_depth` of
+the trees in the forest. Lastly, whether to use bootstrapping or not.
+
+KNN’s `n_neighbors` to determine how many neighbours get to vote on the
+new datapoints score. The `weights` to determine whether closer points
+get a bigger vote than further away points.
+
+Bayes’s `alpha_1`, `alpha_2`, `lambda_1`, and `lambda_2`.
+
+SVM’s `kernel` type. The `degree` and the `gamma` and `C` complexity
+hyperparameters.
 
 ### Packages
 
-A relevant point to be mentioned is what libraries are we using in this
-analysis. We are using (Pedregosa et al. 2011), (Van Rossum and Drake
-2009), (team 2020), (Xie, n.d.), (Harris et al. 2020) and (Virtanen et
-al. 2020), (Römer and Kraska 2007), (Sievert 2018) and (Joblib
-Development Team 2020)
+We are used the following packages for our analysis: sklearn (Pedregosa
+et al. 2011), python (Van Rossum and Drake 2009), pandas (team 2020),
+knitr (Xie, n.d.), numpy (Harris et al. 2020), scipy (Virtanen et al.
+2020), altair (Sievert 2018), and joblib (Joblib Development Team 2020)
 
 # Results & Discussion
 
 ## **Evaluation**
 
-After running the models, we used the test-score metrics to evaluate our
-model prediction performance. As we can assess into the table below,
-model KNN have a *R*<sup>2</sup> = 0.54 which is the best value in
-comparison with the other models
+After performing hyperparameter optimization, we found that the best
+performing model was the KNN using the `distance` value for the
+`weights` hyperparameter and considering the 25 nearest neighbours. As
+we can assess into the table below, the KNN has a test *R*<sup>2</sup> =
+0.54 which is the best value in comparison with the other models
 
 | model |  r2_score | mse_score | rmae_score | mae_score | mse_log_score | mae_log_score |
 |:------|----------:|----------:|-----------:|----------:|--------------:|--------------:|
@@ -228,16 +236,18 @@ comparison with the other models
 Table 1:
 
 In the context of our business question focusing on the prediction of
-white wine quality, it is reasonable that KNN gives us superior
-“predictions”.
+white wine quality, it is seems reasonable that KNN gives us superior
+“predictions”. We hypothesize that this is because of the fact that the
+majority of wines have scores of 5-7, so most datapoints are close to
+those scores.
 
 ## **Discussion**
 
 By analyzing the physicochemical tests samples data of white wines from
 the north of Portugal, we were able to create a model that can help
-industry producers, distributors, and sellers predict the quality of
-white wine products and have a better understanding of each critical and
-up-to-date features. the KNN Model performed better than others.
+industry producers, distributors, and sellers to predict the quality of
+white wine products and have a better understanding of each critical
+feature. The KNN model performed better than others.
 
 It is relevant to mention that there are some limitations for this
 analysis. First, the main problem came from the fact that our data set
@@ -281,14 +291,6 @@ Pipeline Jobs*. <https://joblib.readthedocs.io/>.
 Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O.
 Grisel, M. Blondel, et al. 2011. “Scikit-Learn: Machine Learning in
 Python.” *Journal of Machine Learning Research* 12: 2825–30.
-
-</div>
-
-<div id="ref-romer2007homogeneous" class="csl-entry">
-
-Römer, F, and T Kraska. 2007. “Homogeneous Nucleation and Growth in
-Supersaturated Zinc Vapor Investigated by Molecular Dynamics
-Simulation.” *The Journal of Chemical Physics* 127 (23): 234509.
 
 </div>
 
