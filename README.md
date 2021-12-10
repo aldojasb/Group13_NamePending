@@ -84,17 +84,3 @@ python src/analyze.py --r_path=results
 ## License
 
 The Quality white wine predicto materials here are licensed under MIT License, Copyright (c) 2021 Master of Data Science at the University of British Columbia. If re-using/re-mixing please provide attribution and link to this webpage.
-
-## TODO
-
-- defensive programming
-- Respond to comments: link the coment and the commit
-  - Margots about tuning
-  - Research question
-  - heatmap
-  - typos and grammar errors
-  - Authors
-  - importance
-  - dependencies in readme
-  - Captions
-  - removed pre-process margot and nobbynguyen

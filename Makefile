@@ -13,7 +13,7 @@ results/raw_results: data/processed/X_test.csv data/processed/X_train.csv data/p
 	python src/ml_models.py data/processed results/raw_results
 
 # Perform EDA
-relationship_between_individual_features_and_the_quality_3.png Distribution_of_white_wine_quality.png relationship_between_individual_features_and_the_quality_1.png relationship_between_individual_features_and_the_quality_2.png: data/processed/X_test.csv data/processed/X_train.csv data/processed/y_test.csv data/processed/y_train.csv
+relationship_between_individual_features_and_the_quality_3.png Distribution_of_white_wine_quality.png relationship_between_individual_features_and_the_quality_1.png relationship_between_individual_features_and_the_quality_2.png heatmap.png: data/processed/X_test.csv data/processed/X_train.csv data/processed/y_test.csv data/processed/y_train.csv
 	python src/EDA.py data/processed/X_train.csv data/processed/y_train.csv results
 
 # Evaluate the models
@@ -21,7 +21,7 @@ results/best_model.csv: results/raw_results
 	python src/analyze.py --r_path=results
 
 # Generate report
-doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md: results/best_model.csv relationship_between_individual_features_and_the_quality_3.png Distribution_of_white_wine_quality.png relationship_between_individual_features_and_the_quality_1.png relationship_between_individual_features_and_the_quality_2.png
+doc/Quality_white_wine_predictor.html doc/Quality_white_wine_predictor.md: results/best_model.csv relationship_between_individual_features_and_the_quality_3.png Distribution_of_white_wine_quality.png relationship_between_individual_features_and_the_quality_1.png relationship_between_individual_features_and_the_quality_2.png heatmap.png
 	Rscript -e "rmarkdown::render('doc/Quality_white_wine_predictor.Rmd')"
 
 clean:
